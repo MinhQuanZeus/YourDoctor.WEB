@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Thêm loại tư vấn</h2>
+    <mat-dialog-content class="min-width-400" style="overflow-x: hidden;">
+        <form fxLayout="column" fxLayoutAlign="start stretch" [formGroup]="userForm">
+            <mat-button-toggle-group style="box-shadow: none" name="fontStyle" aria-label="Font Style" [value]="model.type" (change)="onChangeType($event.value)">
+                <mat-button-toggle [value]="1">Chat</mat-button-toggle>
+                <mat-button-toggle [value]="2">Video Call</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-form-field class="full-width">
+                <input type="tel" class="input" placeholder="Tên"
+                       [(ngModel)]="model.name"
+                       formControlName="typeName" required matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['typeName'].errors && userForm.controls['typeName'].touched"
+                       class="help is-danger">
+                Tên có ít nhất 1 ký tự và dài nhất 100 ký tự
+            </mat-error>
+            <mat-form-field class="full-width">
+                <input type="number" class="input" placeholder="Giá" [(ngModel)]="model.price" [min]="0"
+                       formControlName="price" required matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['price'].errors && userForm.controls['price'].touched"
+                       class="help is-danger">
+                Vui lòng nhập số lớn hơn 0
+            </mat-error>
+            <mat-form-field *ngIf="model.type === 1" class="full-width">
+                <input type="text" class="input" placeholder="Giới hạn" [(ngModel)]="model.limitNumberRecords"
+                       formControlName="limitNumberRecords" required matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['limitNumberRecords'].errors && userForm.controls['limitNumberRecords'].touched && model.type === 1"
+                       class="help is-danger">
+                Vui lòng nhập số lớn hơn 0
+            </mat-error>
+            <mat-form-field class="full-width">
+                <input type="text" class="input" placeholder="Mô tả" [(ngModel)]="model.description"
+                       formControlName="description" matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['description'].errors && userForm.controls['description'].touched"
+                       class="help is-danger">
+               Mô tả có nhiều nhất 4000 ký tự
+            </mat-error>
+        </form>
+    </mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button [disabled]="!((this.userForm.controls['typeName'].valid && this.userForm.controls['price'].valid
+            && this.userForm.controls['limitNumberRecords'].valid && this.model.type === 1) ||
+            (this.userForm.controls['typeName'].valid && this.userForm.controls['price'].valid && this.model.type === 2))" color="primary" (click)="onSubmit()">Lưu</button>
+    <button mat-raised-button (click)="cancel()">Hủy</button>
+</mat-dialog-actions>

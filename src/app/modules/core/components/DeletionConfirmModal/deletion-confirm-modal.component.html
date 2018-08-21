@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>{{data.title || 'Xóa'}}</h2>
+<mat-dialog-content class="error">{{data.message || 'Bạn có muốn xóa không?'}}</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="warn" (click)="ok()">Xóa</button>
+    <button mat-raised-button (click)="cancel()">Hủy</button>
+</mat-dialog-actions>

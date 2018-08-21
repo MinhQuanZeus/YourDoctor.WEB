@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>{{dataImage?.name}}</h2>
+<mat-dialog-content>
+    <img [src]="dataImage?.image">
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="ok()">Ok</button>
+</mat-dialog-actions>

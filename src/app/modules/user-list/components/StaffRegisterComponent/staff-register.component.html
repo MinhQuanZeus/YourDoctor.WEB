@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>Thêm Admin</h2>
+<!--<perfect-scrollbar style="height: calc(100% - 400px);">-->
+
+    <mat-dialog-content class="min-width-400" style="overflow-x: hidden;">
+        <div class="avatar">
+            <img width="150px" height="150px" class="avatar" [src]="avatarSrc">
+            <input type="file" id="selectedFile" style="display: none;" (change)="onImageChange($event)"
+                   accept="image/*"/>
+            <span class="icon-upload"><i class="fas fa-upload" style="cursor: pointer; font-size: 18px"
+                                         onclick="document.getElementById('selectedFile').click();"></i></span>
+        </div>
+        <form fxLayout="column" fxLayoutAlign="start stretch" [formGroup]="userForm">
+            <mat-form-field class="full-width">
+                <input type="tel" id="phone" class="input" placeholder="Số điện thoại"
+                       [(ngModel)]="model.phoneNumber" (keyup.enter)="keytab($event)"
+                       formControlName="phoneNumber" required matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['phoneNumber'].errors && userForm.controls['phoneNumber'].touched"
+                       class="help is-danger">
+                Vui lòng nhập số điện thoại tại Việt Nam
+            </mat-error>
+            <mat-form-field class="full-width">
+                <input type="text" class="input" placeholder="Họ" [(ngModel)]="model.firstName" (keyup.enter)="keytab($event)"
+                       formControlName="firstName" required matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['firstName'].errors && userForm.controls['firstName'].touched"
+                       class="help is-danger">
+                Họ có ít nhất 1 ký tự và nhiều nhất 20 ký tự
+            </mat-error>
+            <mat-form-field class="full-width">
+                <input type="text" class="input" placeholder="Tên đệm" [(ngModel)]="model.middleName" (keyup.enter)="keytab($event)"
+                       formControlName="middleName" matInput>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input type="text" class="input" placeholder="Tên" [(ngModel)]="model.lastName" (keyup.enter)="keytab($event)"
+                       formControlName="lastName" required matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['lastName'].errors && userForm.controls['lastName'].touched"
+                       class="help is-danger">
+               Tên có ít nhất 1 ký tự và nhiều nhất 20 ký tự
+            </mat-error>
+            <mat-button-toggle-group style="box-shadow: none" name="fontStyle" aria-label="Font Style" [value]="model.gender" (change)="onChangeGender($event.value)">
+                <mat-button-toggle [value]="1">Nam</mat-button-toggle>
+                <mat-button-toggle [value]="2">Nữ</mat-button-toggle>
+                <mat-button-toggle [value]="3">Khác</mat-button-toggle>
+            </mat-button-toggle-group>
+            <mat-form-field class="full-width">
+                <input type="password" class="input" placeholder="Mật khẩu" [(ngModel)]="model.password" (keyup.enter)="keytab($event)"
+                       formControlName="password" required matInput>
+            </mat-form-field>
+            <mat-error *ngIf="userForm.controls['password'].errors && userForm.controls['password'].touched"
+                       class="help is-danger">
+                Mật khẩu chứa ít nhất 6 lý tự, gồm 1 chứ viết thường, 1 chữ viết hoa và 1 ký tự đặc biệt
+            </mat-error>
+            <mat-form-field class="full-width">
+                <input type="password" class="input" placeholder="Nhập lại mật khẩu" (keyup.enter)="keytab($event)"
+                       [(ngModel)]="model.confirmPassword"
+                       formControlName="confirmPassword" required matInput>
+            </mat-form-field>
+            <mat-error
+                *ngIf="userForm.controls['confirmPassword'].errors && userForm.controls['confirmPassword'].touched"
+                class="help is-danger">
+                <p *ngIf="userForm.controls['confirmPassword'].hasError('required') || userForm.controls['confirmPassword'].hasError('pattern')">Mật khẩu chứa ít nhất 6 lý tự, gồm 1 chứ viết thường, 1 chữ viết hoa và 1 ký tự đặc biệt</p>
+                <p *ngIf="userForm.controls['confirmPassword'].hasError('invalid_confirm')">Không khớp mật khẩu</p>
+            </mat-error>
+            <mat-form-field class="full-width">
+                <input matInput [max]="currentTime" [matDatepicker]="dp3" placeholder="Ngày sinh" [(ngModel)]="model.birthday" formControlName="birthday" [readonly]="true" (click)="openDatepicker()">
+                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input type="text" class="input" placeholder="Địa chỉ" [(ngModel)]="model.address" (keyup.enter)="keytab($event)"
+                       formControlName="address" matInput>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+<!--</perfect-scrollbar>-->
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>
+    <button mat-raised-button (click)="cancel()">Hủy</button>
+</mat-dialog-actions>
+

@@ -1,0 +1,98 @@
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.label {
+    padding: 10px 10px 10px 0;
+    font-weight: bold;
+}
+
+.table-header {
+    background-color: #3BCFAD;
+    color: white;
+    padding: 0 5px;
+}
+
+.table-container {
+    padding: 5px 15px 15px 15px;
+}
+
+.table-component-holder {
+    //border: 1px solid #327ebd;
+    background-color: white;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}
+
+.content {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.icon {
+    cursor: pointer;
+    width: 40px;
+}
+
+:host {
+    .table-header {
+        display: inline-table;
+        white-space: unset;
+    }
+
+    .delete-icon {
+        color: red;
+        cursor: pointer;
+    }
+
+    .btn-add-staff {
+        float: right;
+        top: 20px;
+        right: 15px;
+    }
+}
+
+
+
+mat-button-toggle-group {
+    cursor: pointer;
+}
+
+::ng-deep .mat-sort-header-container {
+    justify-content: center;
+}
+
+/* Structure */
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+.example-header {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    font-size: 20px;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+.widgetHolder {
+    margin: 0 auto;
+    .widgetHolder-content {
+        padding: 20px;
+    }
+}
+

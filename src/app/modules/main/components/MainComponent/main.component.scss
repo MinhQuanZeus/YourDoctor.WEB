@@ -1,0 +1,39 @@
+:host {
+    .sidenav {
+        background: #3BCFAD;
+        overflow: hidden;
+        width: 250px;
+    }
+    .drawer{
+        background: #3BCFAD;
+        overflow: hidden;
+        width: 80px;
+    }
+    .color-primary-dark {
+        background-color: #2B9E81;
+        color: #FFFFFF;
+    }
+    $primary: #3BCFAD;
+    $accent: #2B9E81;
+}
+@mixin auth($theme) {
+    $primary: #3BCFAD;
+    $accent: #2B9E81;
+    $warn: map-get($theme, warn);
+
+
+    [no-over-flow] {
+        overflow: hidden;
+    }
+    .router-outlet{
+        position: relative;padding: 0px 5px;
+    }
+    .spacer {
+        width: 100%;
+    }
+
+    .logo{
+        font-size: 26px;font-family: Roboto;color:white;margin-top: 8px;
+    }
+}
+

@@ -1,0 +1,38 @@
+<div fxLayout="column" fxFlexFill fxLayoutAlign="center center" style="background-image:url('../../../../../assets/images/login11.jpg');
+height: 100%;
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover; ">
+    <div fxLayout="column" fxFlex="50%">
+
+        <div class=" mat-elevation-z4" style="background: #FFFFFF">
+            <mat-card style="min-width: 350px">
+                <mat-card-title>
+                    <img src="../../../assets/images/your_doctor_logo.png" class="center logo">
+                    <div class="center">Admin login</div>
+                </mat-card-title>
+                <mat-card-content>
+                    <form fxLayout="column" fxLayoutAlign="start stretch" [formGroup]="userForm">
+                        <mat-form-field class="full-width">
+                            <input type="tel" id="phone" class="input" placeholder="Vui lòng điền số điện thoại" [(ngModel)]="model.phoneNumber"
+                                   formControlName="phone" required matInput>
+                        </mat-form-field>
+                        <div *ngIf="userForm.controls['phone'].errors && userForm.controls['phone'].touched" class="help is-danger">
+                            Vui lòng nhập số điện thoại tại Việt Nam
+                        </div>
+                        <mat-form-field class="full-width">
+                            <input type="password" id="password" class="input" placeholder="Vui lòng điền mật khẩu" [(ngModel)]="model.password"
+                                   formControlName="password" required matInput>
+                        </mat-form-field>
+                        <div *ngIf="userForm.controls['password'].errors && userForm.controls['password'].touched" class="help is-danger">
+                            Mật khẩu chứa ít nhất 6 lý tự, gồm 1 chứ viết thường, 1 chữ viết hoa và 1 ký tự đặc biệt
+                        </div>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid"
+                                (click)="login()">Đăng nhập
+                        </button>
+                    </form>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

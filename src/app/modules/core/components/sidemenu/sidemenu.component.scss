@@ -1,0 +1,16 @@
+
+@mixin sidemenu($theme) {
+
+    .sidenav {
+        background: #5c6bc0;
+        overflow: hidden;
+        position: relative;
+        width: 250px;
+    }
+}
+:host {
+    .avatar {
+        width: 100px!important;
+        height: 100px!important;
+    }
+}

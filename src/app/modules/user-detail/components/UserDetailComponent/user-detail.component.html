@@ -1,0 +1,142 @@
+<h2 mat-dialog-title>{{userInfo?.fullName}}</h2>
+<mat-dialog-content style="min-width: 500px; min-height: 500px">
+    <mat-tab-group>
+        <mat-tab label="Thông tin">
+            <ng-template style="margin-top: 10px" matTabContent>
+                <div style="margin-top: 10px">
+                    <img class="avatar" [src]="userInfo?.avatar || '../../../../../assets/images/noavatar.png'">
+                    <table style="margin-top: 16px">
+                        <tbody>
+                        <tr>
+                            <td class="label">Họ tên:</td>
+                            <td>{{userInfo?.fullName}}</td>
+                        </tr>
+                        <tr *ngIf="userInfo&& userInfo.birthday">
+                            <td class="label">Ngày sinh:</td>
+                            <td>{{userInfo?.birthday}}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Số điện thoại:</td>
+                            <td>{{userInfo?.phoneNumber}}</td>
+                        </tr>
+                        <tr *ngIf="userInfo&& userInfo.address">
+                            <td class="label">Địa chỉ:</td>
+                            <td>{{userInfo?.address}}</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Số tiền còn lại:</td>
+                            <td>{{userInfo?.remainMoney}}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Role:</td>
+                            <td>
+                                <mat-select [(value)]="userInfo.role">
+                                    <mat-option [value]="3">Admin</mat-option>
+                                    <mat-option [value]="2">Bác sĩ</mat-option>
+                                    <mat-option [value]="1">Bệnh nhân</mat-option>
+                                </mat-select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Trạng thái:</td>
+                            <td>
+                                <mat-select [(value)]="userInfo.status">
+                                    <mat-option [value]="1">Active</mat-option>
+                                    <mat-option [value]="3">Block</mat-option>
+                                    <mat-option *ngIf="userInfo.role === 2" [value]="4">Bác sĩ block</mat-option>
+                                    <mat-option *ngIf="userInfo.role === 2" [value]="2">Bác sĩ chờ phê duyệt
+                                    </mat-option>
+                                </mat-select>
+                            </td>
+                        </tr>
+                        <tr *ngIf="userInfo.role === 2">
+                            <td class="label">Rating hiện tại:</td>
+                            <td>
+                                {{userInfo.doctorDetail.currentRating}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="userInfo.role === 2">
+                            <td class="label">Rating hệ thống:</td>
+                            <td>
+                                <mat-select [(value)]="userInfo.doctorDetail.systemRating">
+                                    <mat-option [value]="1">1</mat-option>
+                                    <mat-option [value]="1.5">1.5</mat-option>
+                                    <mat-option [value]="2">2</mat-option>
+                                    <mat-option [value]="2.5">2.5</mat-option>
+                                    <mat-option [value]="3">3</mat-option>
+                                    <mat-option [value]="3.5">3.5</mat-option>
+                                    <mat-option [value]="4">4</mat-option>
+                                    <mat-option [value]="4.5">4.5</mat-option>
+                                    <mat-option [value]="5">5</mat-option>
+                                </mat-select>
+                            </td>
+                        </tr>
+                        <tr *ngIf="userInfo.role === 2">
+                            <td class="label">Tốt nghiệp trường:</td>
+                            <td>
+                                {{userInfo.doctorDetail.universityGraduate}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="userInfo.role === 2">
+                            <td class="label">Năm tốt nghiệp:</td>
+                            <td>
+                                {{userInfo.doctorDetail.yearGraduate}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="userInfo.role === 2">
+                            <td class="label">Nơi làm việc:</td>
+                            <td>
+                                {{userInfo.doctorDetail.placeWorking}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="userInfo.role === 2">
+                            <td class="label">Chuyên khoa:</td>
+                            <td>
+                                <span *ngFor="let sp of userInfo.doctorDetail.specialists">{{sp.name}}&emsp;</span>
+                            </td>
+                        </tr>
+                        <tr *ngIf="userInfo.role === 2">
+                            <td class="label">Chứng chỉ</td>
+                            <td>
+                                <mat-grid-list cols="2" rowHeight="2:1">
+                                    <mat-grid-tile
+                                        *ngFor="let cer of userInfo.doctorDetail.certificates;trackBy: trackByFn">
+                                        <div>
+                                            <div><img width="150px" height="150px" (click)="previewImage(cer)"
+                                                      [src]="cer.image"></div>
+                                            <div style="text-align: center">{{cer.name}}</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-template>
+        </mat-tab>
+        <mat-tab *ngIf="userInfo?.role !== 3" label="Lịch sử chat">
+            <ng-template matTabContent>
+                <app-chat-histories [userInfo]="userInfo" [chatHistories]="chatHistories"></app-chat-histories>
+            </ng-template>
+        </mat-tab>
+        <mat-tab *ngIf="userInfo?.role !== 3" label="Lịch sử video call">
+            <ng-template matTabContent>
+                <app-video-call-histories [userInfo]="userInfo" [videoCallHistories]="videoCallHistories"> </app-video-call-histories>
+            </ng-template>
+        </mat-tab>
+        <mat-tab *ngIf="userInfo?.role !== 3" label="Lịch sử Thanh Toán">
+            <ng-template matTabContent>
+                <app-payment-histories [userInfo]="userInfo" [paymentHistories]="paymentHistories"></app-payment-histories>
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="ok()">Lưu</button>
+    <button mat-raised-button (click)="cancel()">Hủy</button>
+</mat-dialog-actions>
+
