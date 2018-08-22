@@ -2,18 +2,32 @@ import {NgModule} from '@angular/core';
 import {
     MatButtonModule,
     MatButtonToggleModule,
-    MatCardModule, MatChipsModule, MatDatepickerModule,
-    MatDialogModule, MatGridListModule,
-    MatInputModule, MatPaginatorModule, MatSelectModule, MatSortModule, MatTableModule,
+    MatCardModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatSortModule,
+    MatTableModule,
     MatTabsModule,
-    MatToolbarModule, MatTooltip, MatTooltipModule
+    MatToolbarModule,
+    MatTooltipModule
 } from '@angular/material';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
-import {ChatHistoriesComponent, PaymentHistoriesComponent, UserDetailComponent, VideoCallHistoriesComponent} from './components';
+import {
+    BankingHistoriesComponent,
+    ChatHistoriesComponent,
+    PaymentHistoriesComponent,
+    UserDetailComponent,
+    VideoCallHistoriesComponent
+} from './components';
 
 @NgModule({
     imports: [
@@ -37,13 +51,14 @@ import {ChatHistoriesComponent, PaymentHistoriesComponent, UserDetailComponent, 
         MatPaginatorModule,
         MatChipsModule,
         MatTooltipModule,
-        MatDatepickerModule
+        MatDatepickerModule,
     ],
     declarations: [
         UserDetailComponent,
         ChatHistoriesComponent,
         VideoCallHistoriesComponent,
-        PaymentHistoriesComponent
+        PaymentHistoriesComponent,
+        BankingHistoriesComponent
     ],
     exports: [
         RouterModule
@@ -51,9 +66,7 @@ import {ChatHistoriesComponent, PaymentHistoriesComponent, UserDetailComponent, 
     entryComponents: [
         UserDetailComponent
     ],
-    providers: [
-
-    ]
+    providers: []
 })
 export class UserDetailModule {
 }

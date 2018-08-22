@@ -6,3 +6,4 @@ export * from './main/main.module';
 export * from './user-list/user-list.module';
 export * from './type-advisory/type-advisory.module';
 export * from './reports/reports.module';
+export * from './banking/banking.module';

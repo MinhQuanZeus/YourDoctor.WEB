@@ -8,3 +8,4 @@ export * from './TypeAdvisory';
 export * from './Report';
 export * from './Record';
 export * from './Chat';
+export * from './Banking';

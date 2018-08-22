@@ -4,6 +4,7 @@ import {UserListModule} from './../user-list/user-list.module';
 import {TypeAdvisoryModule} from './../type-advisory/type-advisory.module';
 import {SpecialistModule} from '../specialist/specialist.module';
 import {ReportsModule} from '../reports/reports.module';
+import {BankingModule} from '../banking/banking.module';
 // import { DashboardCrmComponent } from '../dashboard-crm/dashboard-crm.component';
 
 export const appRoutes: Routes = [{
@@ -13,6 +14,7 @@ export const appRoutes: Routes = [{
         {path: 'type-advisories', loadChildren: typeAdvisoryList},
         {path: 'specialist', loadChildren: specialist},
         {path: 'reports', loadChildren: reports},
+        {path: 'banking', loadChildren: banking},
         // { path: 'tables', loadChildren: '../tables/tables.module#TablesModule' },
         // { path: 'maps', loadChildren: '../maps/maps.module#MapsModule' },
         // { path: 'charts', loadChildren: '../charts/charts.module#ChartsModule' },
@@ -36,4 +38,8 @@ export function specialist() {
 }
 export function reports() {
     return ReportsModule;
+}
+
+export function banking() {
+    return BankingModule;
 }

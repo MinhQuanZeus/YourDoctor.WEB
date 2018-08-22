@@ -46,7 +46,7 @@ export class UserListComponent implements OnInit {
             order: 'asc'
         },
         {
-            name: 'Role',
+            name: 'Vai trò',
             key: 'roleString',
             order: 'asc'
         },

@@ -15,6 +15,21 @@ export const menus = [
         // ]
     },
     {
+        'name': 'Ngân hàng',
+        'icon': 'account_balance',
+        'link': '/banking',
+        'open': false,
+        // 'sub': [
+        //     {
+        //         'name': 'List người dùng',
+        //         'link': '/admin/users',
+        //         'icon': 'account_circle',
+        //         'chip': false,
+        //         'open': true,
+        //     }
+        // ]
+    },
+    {
         'name': 'Reports',
         'icon': 'announcement',
         'link': '/admin/reports',

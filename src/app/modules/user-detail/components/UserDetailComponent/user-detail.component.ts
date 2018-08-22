@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material';
-import {ChatServices, CommonServices, PaymentServices, UserServices, VideoCallServices} from '../../../../services';
-import {Message, User, VideoCallHistory, ChatHistory, PaymentHistory} from '../../../../models';
+import {BankingServices, ChatServices, CommonServices, PaymentServices, UserServices, VideoCallServices} from '../../../../services';
+import {Message, User, VideoCallHistory, ChatHistory, PaymentHistory, Banking} from '../../../../models';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ImageViewModalComponent} from '../../../core/components';
 
@@ -20,10 +20,11 @@ export class UserDetailComponent {
     chatHistories: ChatHistory[];
     videoCallHistories: VideoCallHistory[];
     paymentHistories: PaymentHistory[];
+    bankingHistories: Banking[];
     type = 1;
 
     constructor(private dialogRef: MatDialogRef<UserDetailComponent>, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,
-                private commonServices: CommonServices, private userServices: UserServices,
+                private commonServices: CommonServices, private userServices: UserServices, private bankingServices: BankingServices,
                 private videoCallHistoryServices: VideoCallServices, private paymentHistoryServices: PaymentServices,
                 private chatServices: ChatServices) {
         this.initData = data;
@@ -59,9 +60,14 @@ export class UserDetailComponent {
             if (userRes) {
                 this.userInfo = new User(userRes);
                 this.userInfo.doctorDetail = moreDetail;
-                this.getChatHistory(this.userInfo);
-                this.getVideoCallHistory(this.userInfo);
-                this.getPaymentHistories(this.userInfo);
+                if (this.userInfo.role === 1 || this.userInfo.role === 2) {
+                    this.getChatHistory(this.userInfo);
+                    this.getVideoCallHistory(this.userInfo);
+                    this.getPaymentHistories(this.userInfo);
+                }
+                if (this.userInfo.role === 2) {
+                    this.getBankHistories(this.userInfo);
+                }
             }
         } catch (e) {
             if (e instanceof HttpErrorResponse) {
@@ -140,6 +146,26 @@ export class UserDetailComponent {
             if (historiesRes && historiesRes.length > 0) {
                 this.paymentHistories = historiesRes.map(obj => new PaymentHistory(obj));
             }
+        } catch (e) {
+            if (e instanceof HttpErrorResponse) {
+                const error = e && e.error && e.error.error ? e.error.error : '';
+                this.commonServices.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
+            }
+        }
+    }
+
+    async getBankHistories(user: User) {
+        try {
+            let historiesRes = null;
+            let res = null;
+            if (user && user.role === 2 || user.role === 1) {
+                res = await this.bankingServices.getBankingHistoriesByUserId(user.id).toPromise();
+                historiesRes = res && res.listBankingHistory ? res.listBankingHistory : null;
+            }
+            if (historiesRes && historiesRes.length > 0) {
+                this.bankingHistories = historiesRes.map(obj => new Banking(obj));
+            }
+            console.log(this.bankingHistories);
         } catch (e) {
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';

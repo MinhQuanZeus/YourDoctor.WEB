@@ -7,5 +7,6 @@ export * from './PaymentServices';
 export * from './TypeAdvisoryServices';
 export * from './SpecialistServices';
 export * from './ReportServices';
+export * from './BankingServices';
 
 

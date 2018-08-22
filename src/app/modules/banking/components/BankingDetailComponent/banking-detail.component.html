@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Thông tin rút tiền</h2>
+<mat-dialog-content class="detail">
+    <table>
+        <tbody>
+        <tr>
+            <td class="label">Người rút:</td>
+            <td >{{bankingDetail?.userFullname}}<i class="icon fas fa-info-circle" (click)="openUserDetail(bankingDetail?.userInfo?.id)"></i></td>
+        </tr>
+        <tr>
+            <td class="label">Ngày tạo:</td>
+            <td >{{bankingDetail?.createdAtFormatted}}</td>
+        </tr>
+        <tr >
+            <td class="label">Số tiền rút:</td>
+            <td>{{bankingDetail?.amount}}</td>
+        </tr>
+        <tr>
+            <td class="label">Ngân hàng:</td>
+            <td>{{bankingDetail?.nameBank}}&emsp;</td>
+        </tr>
+        <tr>
+            <td class="label">Số tài khoản:</td>
+            <td>{{bankingDetail?.accountNumber}}&emsp;</td>
+        </tr>
+        <tr>
+            <td class="label">Trạng thái:</td>
+            <td>
+                <mat-select style="width: 230px" [value]="bankingDetail?.status" placeholder="Trạng thái" (selectionChange)="changeSolution($event.value)">
+                    <mat-option [value]="1">Chưa xác minh</mat-option>
+                    <mat-option [value]="2">Chưa xử lý</mat-option>
+                    <mat-option [value]="3">Đã chuyển</mat-option>
+                    <mat-option [value]="4">Hủy bỏ</mat-option>
+                </mat-select>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Hóa đơn:</td>
+            <td>
+                <img width="150px" height="150px" class="avatar" [src]="invoiceSrc">
+                <input type="file" id="selectedFile" style="display: none;" (change)="onImageChange($event)"
+                       accept="image/*"/>
+                <span class="icon-upload"><i class="fas fa-upload" style="cursor: pointer; font-size: 18px"
+                                             onclick="document.getElementById('selectedFile').click();"></i></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Chú thích:</td>
+            <td>
+                <mat-form-field class="full-width">
+                    <textarea type="text" class="input" placeholder="Chú thích" [(ngModel)]="comment"
+                              matInput></textarea>
+                </mat-form-field>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button *ngIf="!bankingDetail.status" mat-raised-button color="primary" (click)="ok()">Lưu</button>
+    <button *ngIf="bankingDetail.status" mat-raised-button color="primary" (click)="ok()">Ok</button>
+    <button *ngIf="!bankingDetail.status" mat-raised-button (click)="cancel()">Hủy</button>
+</mat-dialog-actions>

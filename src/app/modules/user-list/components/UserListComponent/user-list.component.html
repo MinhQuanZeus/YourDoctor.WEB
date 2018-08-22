@@ -11,7 +11,6 @@
                     <mat-select placeholder="Trạng thái" (selectionChange)="onChangeStatus($event.value)">
                         <mat-option value="1">Active</mat-option>
                         <mat-option value="3">Block</mat-option>
-                        <mat-option value="4">Bác sĩ block</mat-option>
                         <mat-option value="2">Bác sĩ chờ phê duyệt</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -22,7 +21,7 @@
                         <mat-option value="1">Bệnh nhân</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button mat-raised-button color="primary" class="btn-add-staff" (click)="onCreateNewStaff()">Thêm nhân viên</button>
+                <button mat-raised-button color="primary" class="btn-add-staff" (click)="onCreateNewStaff()">Thêm admin</button>
             </form>
         </mat-toolbar>
         <div class="table-container">

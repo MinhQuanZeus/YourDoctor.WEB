@@ -1,80 +1,78 @@
 import {Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
-import {User, VideoCallHistory} from '../../../../models';
-import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material';
+import {Banking, User} from '../../../../models';
+import {MatDatepicker, MatDatepickerInputEvent, MatDialog, MatDialogConfig} from '@angular/material';
 import * as moment from 'moment';
+import {ImageViewModalComponent} from '../../../core/components';
 
 @Component({
-    selector: 'app-video-call-histories',
-    templateUrl: 'video-call-histories.component.html',
-    styleUrls: ['video-call-histories.component.scss']
+    selector: 'app-banking-histories',
+    templateUrl: 'banking-histories.component.html',
+    styleUrls: ['banking-histories.component.scss']
 })
 
-export class VideoCallHistoriesComponent implements OnChanges {
+export class BankingHistoriesComponent implements OnChanges {
 
     @ViewChild('startDate') startDatepicker: MatDatepicker<Date>;
     @ViewChild('endDate') endDatepicker: MatDatepicker<Date>;
-    headerDoctorChatHistories = [
-        {
-            name: 'Bệnh nhân',
-            key: 'fullNamePatient',
-            order: 'asc'
-        },
-        {
-            name: 'Ngày gọi',
-            key: 'timeStartFormatted',
-            order: 'asc'
-        },
-        {
-            name: 'Thời gian gọi',
-            key: 'callLength',
-            order: 'asc'
-        }
-    ];
 
-    headerPatientVideoCallHistories = [
+    headers = [
         {
-            name: 'Bác sĩ',
-            key: 'fullNameDoctor',
+            name: 'Ngày tạo',
+            key: 'createdAtFormatted',
             order: 'asc'
         },
         {
-            name: 'Ngày gọi',
-            key: 'timeStartFormatted',
+            name: 'Số tiền rút',
+            key: 'amount',
             order: 'asc'
         },
         {
-            name: 'Thời gian gọi',
-            key: 'callLength',
+            name: 'Ngân hàng',
+            key: 'nameBank',
+            order: 'asc'
+        },
+        {
+            name: 'Số tài khoản',
+            key: 'accountNumber',
+            order: 'asc'
+        },
+        {
+            name: 'Trạng thái',
+            key: 'statusString',
+            order: 'asc'
+        },
+        {
+            name: 'Chú thích',
+            key: 'comment',
             order: 'asc'
         }
     ];
 
     @Input() userInfo = new User();
-    @Input() videoCallHistories: VideoCallHistory[];
+    @Input() bankingHistories: Banking[];
     @ViewChild('keyWord') keyWordRef: ElementRef;
     model = {
         keyword: '',
         startTime: null,
         endTime: null,
         sort: {
-            active: 'timeStartFormatted',
+            active: 'createdAtFormatted',
             direction: 'desc'
         },
-        status: 3,
+        status: -1,
         pageIndex: 0
     };
-    historyItems: VideoCallHistory[];
+    historyItems: Banking[];
     pageSize = 10;
     pageLength = 0;
-    headers = [];
-    searchedList: VideoCallHistory[];
-    sortedlist: VideoCallHistory[];
+    searchedList: Banking[];
+    sortedlist: Banking[];
     startDatetime: any;
     endDatetime: any;
 
     keywordPlaceHolder: string;
 
-    constructor() {
+    constructor(private dialog: MatDialog) {
     }
 
     nextPage(event) {
@@ -111,7 +109,6 @@ export class VideoCallHistoriesComponent implements OnChanges {
     openStartDate() {
         this.startDatepicker.open();
     }
-
     openEndDate() {
         this.endDatepicker.open();
     }
@@ -137,20 +134,27 @@ export class VideoCallHistoriesComponent implements OnChanges {
     }
 
     onSearch() {
-        if (!this.videoCallHistories || this.videoCallHistories.length === 0) {
+        if (!this.bankingHistories || this.bankingHistories.length === 0) {
             return;
         }
         this.model.keyword = this.model.keyword ? this.model.keyword.trim() : '';
-        this.searchedList = this.videoCallHistories.filter(obj =>
-            (obj.fullNameDoctor.toLowerCase().includes(this.model.keyword.toLowerCase())
-                || obj.fullNamePatient.toLowerCase().includes(this.model.keyword.toLowerCase())));
+        this.searchedList = this.bankingHistories.filter(obj =>
+            (obj.comment.toLowerCase().includes(this.model.keyword.toLowerCase())));
         if (this.model.startTime) {
-            this.searchedList = this.searchedList.filter(obj => obj.timeStartFormatted >= this.model.startTime);
+            this.searchedList = this.searchedList.filter(obj => obj.createdAtFormatted >= this.model.startTime);
         }
         if (this.model.endTime) {
-            this.searchedList = this.searchedList.filter(obj => obj.timeStartFormatted <= this.model.endTime);
+            this.searchedList = this.searchedList.filter(obj => obj.createdAtFormatted <= this.model.endTime);
+        }
+        if (this.model.status !== -1) {
+            this.searchedList = this.searchedList.filter(obj => obj.status === this.model.status);
         }
         this.onSort(this.model.sort);
+    }
+
+    onChangeStatus(value) {
+        this.model.status = value;
+        this.onSearch();
     }
 
     onSort(sort) {
@@ -174,16 +178,18 @@ export class VideoCallHistoriesComponent implements OnChanges {
         this.sortedlist = data.sort((a, b) => {
             const isAsc = this.model.sort.direction === 'asc';
             switch (this.model.sort.active) {
-                case 'fullNamePatient':
-                    return compare(a.fullNamePatient, b.fullNamePatient, isAsc);
-                case 'fullNameDoctor':
-                    return compare(a.fullNameDoctor, b.fullNameDoctor, isAsc);
-                case 'timeStartFormatted':
-                    return compare(a.timeStartFormatted, b.timeStartFormatted, isAsc);
-                case 'callLength':
-                    return compare(a.callLength, b.callLength, isAsc);
-                case 'linkVideo':
-                    return compare(a.linkVideo, b.linkVideo, isAsc);
+                case 'createdAtFormatted':
+                    return compare(a.createdAtFormatted, b.createdAtFormatted, isAsc);
+                case 'amount':
+                    return compare(a.amount, b.amount, isAsc);
+                case 'nameBank':
+                    return compare(a.nameBank, b.nameBank, isAsc);
+                case 'accountNumber':
+                    return compare(a.accountNumber, b.accountNumber, isAsc);
+                case 'statusString':
+                    return compare(a.statusString, b.statusString, isAsc);
+                case 'comment':
+                    return compare(a.comment, b.comment, isAsc);
                 default:
                     return 0;
             }
@@ -191,19 +197,21 @@ export class VideoCallHistoriesComponent implements OnChanges {
         this.getPages();
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (this.userInfo) {
-            if (this.userInfo.role === 1) {
-                this.keywordPlaceHolder = 'Tên bác sĩ';
-                this.headers = this.headerPatientVideoCallHistories;
-            } else {
-                this.keywordPlaceHolder = 'Tên bệnh nhân';
-                this.headers = this.headerDoctorChatHistories;
-            }
-        }
+    public previewImage(data: any) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            image: data.invoice
+        };
+        const dialogRef = this.dialog.open(ImageViewModalComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    }
 
-        if (this.videoCallHistories && this.videoCallHistories.length > 0) {
-            this.searchedList = this.videoCallHistories;
+    ngOnChanges(changes: SimpleChanges): void {
+        if (this.bankingHistories && this.bankingHistories.length > 0) {
+            this.searchedList = this.bankingHistories;
             this.onSort(this.model.sort);
             this.getPages();
         }

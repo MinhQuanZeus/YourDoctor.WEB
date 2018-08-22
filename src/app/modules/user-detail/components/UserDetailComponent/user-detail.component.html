@@ -29,7 +29,7 @@
                         </tr>
 
                         <tr>
-                            <td class="label">Role:</td>
+                            <td class="label">Vai trò:</td>
                             <td>
                                 <mat-select [disabled]="type === 2" [(value)]="userInfo.role">
                                     <mat-option [value]="3">Admin</mat-option>
@@ -51,13 +51,13 @@
                             </td>
                         </tr>
                         <tr *ngIf="userInfo.role === 2">
-                            <td class="label">Rating hiện tại:</td>
+                            <td class="label">Đánh giá hiện tại:</td>
                             <td>
                                 {{userInfo.doctorDetail.currentRating}}
                             </td>
                         </tr>
                         <tr *ngIf="userInfo.role === 2">
-                            <td class="label">Rating hệ thống:</td>
+                            <td class="label">Đánh giá hệ thống:</td>
                             <td>
                                 <mat-select [disabled]="type === 2" [(value)]="userInfo.doctorDetail.systemRating">
                                     <mat-option [value]="1">1</mat-option>
@@ -129,6 +129,11 @@
         <mat-tab *ngIf="userInfo?.role !== 3" label="Lịch sử Thanh Toán">
             <ng-template matTabContent>
                 <app-payment-histories [userInfo]="userInfo" [paymentHistories]="paymentHistories"></app-payment-histories>
+            </ng-template>
+        </mat-tab>
+        <mat-tab *ngIf="userInfo?.role === 2" label="Lịch sử Ngân hàng">
+            <ng-template matTabContent>
+                <app-banking-histories [userInfo]="userInfo" [bankingHistories]="bankingHistories"></app-banking-histories>
             </ng-template>
         </mat-tab>
     </mat-tab-group>

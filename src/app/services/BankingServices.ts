@@ -14,4 +14,12 @@ export class BankingServices {
     getBankingHistoriesByUserId(userId): Observable<any> {
         return this.http.get(environment.API_ENDPOINT + 'bankinghistorys/getHistoryBanking/' + userId);
     }
+
+    getAllBankingHistory(): Observable<any> {
+        return this.http.get(environment.API_ENDPOINT + 'bankinghistorys');
+    }
+
+    getById(id): Observable<any> {
+        return this.http.get(environment.API_ENDPOINT + 'bankinghistorys/get-detail-banking/' + id);
+    }
 }
