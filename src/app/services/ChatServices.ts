@@ -25,4 +25,8 @@ export class ChatServices {
         // });
         return this.http.post(environment.API_ENDPOINT + 'auth/register', formData);
     }
+
+    getChatTopicById(id): Observable<any> {
+        return this.http.get(environment.API_ENDPOINT + 'chatshistorys/getConversationByID/' + id);
+    }
 }

@@ -20,12 +20,14 @@ export class UserDetailComponent {
     chatHistories: ChatHistory[];
     videoCallHistories: VideoCallHistory[];
     paymentHistories: PaymentHistory[];
+    type = 1;
 
     constructor(private dialogRef: MatDialogRef<UserDetailComponent>, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,
                 private commonServices: CommonServices, private userServices: UserServices,
                 private videoCallHistoryServices: VideoCallServices, private paymentHistoryServices: PaymentServices,
                 private chatServices: ChatServices) {
         this.initData = data;
+        this.type = data.type;
         if (this.initData) {
             this.getUserInfo();
         }
@@ -119,7 +121,6 @@ export class UserDetailComponent {
             if (historiesPatientRes && historiesPatientRes.length > 0) {
                 this.videoCallHistories = historiesPatientRes.map(obj => new VideoCallHistory(obj));
             }
-            console.log(this.videoCallHistories);
         } catch (e) {
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';

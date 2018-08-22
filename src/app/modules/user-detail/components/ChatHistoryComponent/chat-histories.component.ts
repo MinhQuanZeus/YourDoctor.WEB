@@ -1,8 +1,9 @@
 import {Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {User} from '../../../../models';
 import {ChatHistory} from '../../../../models/ChatHistory';
-import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material';
+import {MatDatepicker, MatDatepickerInputEvent, MatDialog, MatDialogConfig} from '@angular/material';
 import * as moment from 'moment';
+import {DetailChatModalComponent} from '../../../core/components/DetailChatComponent/detail-chat-modal.component';
 
 @Component({
     selector: 'app-chat-histories',
@@ -85,7 +86,7 @@ export class ChatHistoriesComponent implements OnChanges {
 
     keywordPlaceHolder: string;
 
-    constructor() {
+    constructor(private dialog: MatDialog) {
     }
 
     nextPage(event) {
@@ -93,11 +94,11 @@ export class ChatHistoriesComponent implements OnChanges {
         this.model.pageIndex = event.pageIndex;
         if ((event.pageIndex + 1) * event.pageSize > event.length) {
             for (let i = 1 * event.pageIndex * event.pageSize; i < event.length; i++) {
-                this.historyItems = [...this.historyItems, this.chatHistories[i]];
+                this.historyItems = [...this.historyItems, this.sortedlist[i]];
             }
         } else {
             for (let i = 1 * event.pageIndex * event.pageSize; i < event.pageSize + event.pageIndex * event.pageSize; i++) {
-                this.historyItems = [...this.historyItems, this.chatHistories[i]];
+                this.historyItems = [...this.historyItems, this.sortedlist[i]];
             }
         }
     }
@@ -122,6 +123,7 @@ export class ChatHistoriesComponent implements OnChanges {
     openStartDate() {
         this.startDatepicker.open();
     }
+
     openEndDate() {
         this.endDatepicker.open();
     }
@@ -144,6 +146,21 @@ export class ChatHistoriesComponent implements OnChanges {
         this.endDatetime = event.value;
         this.model.endTime = event.value ? moment(event.value).format('YYYY/MM/DD') + ' 24:60' : '';
         this.onSearch();
+    }
+
+    openDetailChat(row) {
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            id: row.id,
+        };
+        const dialogRef = this.dialog.open(DetailChatModalComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result && result === 'ok') {
+
+            }
+        });
     }
 
     onSearch() {

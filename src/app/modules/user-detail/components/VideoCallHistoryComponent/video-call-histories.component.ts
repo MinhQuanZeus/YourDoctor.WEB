@@ -51,11 +51,6 @@ export class VideoCallHistoriesComponent implements OnChanges {
             name: 'Thời gian gọi',
             key: 'callLength',
             order: 'asc'
-        },
-        {
-            name: 'Link video',
-            key: 'linkVideo',
-            order: 'asc'
         }
     ];
 
@@ -92,11 +87,11 @@ export class VideoCallHistoriesComponent implements OnChanges {
         this.model.pageIndex = event.pageIndex;
         if ((event.pageIndex + 1) * event.pageSize > event.length) {
             for (let i = 1 * event.pageIndex * event.pageSize; i < event.length; i++) {
-                this.historyItems = [...this.historyItems, this.videoCallHistories[i]];
+                this.historyItems = [...this.historyItems, this.sortedlist[i]];
             }
         } else {
             for (let i = 1 * event.pageIndex * event.pageSize; i < event.pageSize + event.pageIndex * event.pageSize; i++) {
-                this.historyItems = [...this.historyItems, this.videoCallHistories[i]];
+                this.historyItems = [...this.historyItems, this.sortedlist[i]];
             }
         }
     }

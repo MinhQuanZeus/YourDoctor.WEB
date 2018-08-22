@@ -12,7 +12,7 @@ import {
     DeletionConfirmModalComponent,
     FlashMessageComponent,
     FlashMessageContainerComponent,
-    ImageViewModalComponent
+    ImageViewModalComponent, DetailChatModalComponent, DetailVideoCallModalComponent
 } from './components';
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
@@ -21,7 +21,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatDialogModule, MatTabsModule} from '@angular/material';
+import {MatDialogModule, MatExpansionModule, MatTabsModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
@@ -53,7 +53,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         DeletionConfirmModalComponent,
         FlashMessageComponent,
         FlashMessageContainerComponent,
-        ImageViewModalComponent
+        ImageViewModalComponent,
+        DetailChatModalComponent,
+        DetailVideoCallModalComponent
     ],
 
     imports: [
@@ -65,7 +67,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         MatChipsModule,
         RouterModule,
         TranslateModule,
-
+        MatExpansionModule,
         PerfectScrollbarModule,
         FlexLayoutModule,
         MatToolbarModule,
@@ -88,9 +90,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SidebarComponent,
         UserMenuComponent,
         FlashMessageComponent,
-        FlashMessageContainerComponent
+        FlashMessageContainerComponent,
+        DetailVideoCallModalComponent
     ],
-    entryComponents: [DeletionConfirmModalComponent, ImageViewModalComponent],
+    entryComponents: [DeletionConfirmModalComponent, ImageViewModalComponent, DetailChatModalComponent, DetailVideoCallModalComponent],
     providers: [
         {
             provide: PERFECT_SCROLLBAR_CONFIG,

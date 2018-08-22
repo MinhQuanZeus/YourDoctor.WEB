@@ -18,4 +18,8 @@ export class VideoCallServices {
     getDoctorVideoCallHistories(doctorId): Observable<any> {
         return this.http.get(environment.API_ENDPOINT + 'videcallhistories/getHistoryVideoCallDoctor/' + doctorId);
     }
+
+    getVideoCallHistoryById(id): Observable<any> {
+        return this.http.get(environment.API_ENDPOINT + 'videcallhistories/' + id);
+    }
 }

@@ -13,7 +13,7 @@ import {
     ChatServices,
     VideoCallServices,
     PaymentServices,
-    TypeAdvisoryServices, SpecialistServices
+    TypeAdvisoryServices, SpecialistServices, ReportServices
 } from '../../services';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpErrorInterceptor} from '../../interceptors/HttpErrorInterceptor';
@@ -60,7 +60,8 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
         VideoCallServices,
         PaymentServices,
         TypeAdvisoryServices,
-        SpecialistServices
+        SpecialistServices,
+        ReportServices
     ],
     bootstrap: [AppComponent]
 })

@@ -17,6 +17,7 @@ import {ChatHistoriesComponent, PaymentHistoriesComponent, UserDetailComponent, 
 
 @NgModule({
     imports: [
+        RouterModule,
         MatCardModule,
         CommonModule,
         FlexLayoutModule,

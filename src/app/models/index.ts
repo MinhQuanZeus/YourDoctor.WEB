@@ -5,3 +5,6 @@ export * from './ChatHistory';
 export * from './VideoCallHistory';
 export * from './PaymentHistory';
 export * from './TypeAdvisory';
+export * from './Report';
+export * from './Record';
+export * from './Chat';

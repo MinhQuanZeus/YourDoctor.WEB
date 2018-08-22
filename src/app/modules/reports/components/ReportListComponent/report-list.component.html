@@ -4,25 +4,28 @@
             <!--<h1 class="mat-headline center-align">Danh sách người dùng</h1>-->
             <form class="center-align">
                 <mat-form-field class="length-input">
-                    <input #keyWord matInput [ngModelOptions]="{standalone: true}" [placeholder]="keywordPlaceHolder" maxlength="200"
+                    <input #keyWord matInput [ngModelOptions]="{standalone: true}" [placeholder]="'Tên người report/người bị report'"
+                           maxlength="200"
                            [(ngModel)]="model.keyword" (blur)="onBlurKeyWord()" (keyup.enter)="onEnterSearchKey()">
                 </mat-form-field>
 
                 <mat-form-field class="margin-left-10">
-                    <input matInput [max]="endDatetime" (click)="openStartDate()" [matDatepicker]="startDate" placeholder="Từ ngày" (dateChange)="startDateChange($event)" [readonly]="true">
+                    <input matInput [max]="endDatetime" (click)="openStartDate()" [matDatepicker]="startDate"
+                           placeholder="Từ ngày" (dateChange)="startDateChange($event)" [readonly]="true">
                     <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
                     <mat-datepicker #startDate></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="margin-left-10">
-                    <input matInput [min]="startDatetime" (click)="openEndDate()" [matDatepicker]="endDate" placeholder="Đến ngày" (dateChange)="endDateChange($event)"[readonly]="true">
+                    <input matInput [min]="startDatetime" (click)="openEndDate()" [matDatepicker]="endDate"
+                           placeholder="Đến ngày" (dateChange)="endDateChange($event)" [readonly]="true">
                     <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
                     <mat-datepicker #endDate></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="margin-left-10">
-                    <mat-select placeholder="Trạng thái" [(value)]="model.status" (selectionChange)="onSearch()">
-                        <mat-option [value]="3">Toàn bộ</mat-option>
-                        <mat-option [value]="2">Hoàn Thành</mat-option>
-                        <mat-option [value]="1">Chưa Hoàn thành</mat-option>
+                    <mat-select placeholder="Trạng thái" (selectionChange)="onChangeStatus($event.value)">
+                        <mat-option [value]="'all'">Toàn bộ</mat-option>
+                        <mat-option [value]="'Chưa xử lý'">Chưa xử lý</mat-option>
+                        <mat-option [value]="'Đã xử lý'">Đã xử lý</mat-option>
                     </mat-select>
                 </mat-form-field>
             </form>
@@ -51,10 +54,9 @@
                                       *ngIf="th.key=='applicationNumber' && row['duplicate_applications'] != 'undefined' && row['duplicate_applications'] && row['duplicate_applications'].length > 0">
 									{{row['duplicate_applications'].length }}
                             </mat-chip>
-
                         </span>
                     </td>
-                    <td class="icon"><i class="far fa-envelope-open" (click)="openDetailChat(row)"></i></td>
+                    <td class="icon"><i class="far fa-edit" (click)="openDetail(row)"></i></td>
                 </tr>
                 </tbody>
                 <thead *matHeaderRowDef="headers"></thead>

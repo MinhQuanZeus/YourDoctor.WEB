@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Thông tin report</h2>
+<mat-dialog-content class="detail">
+    <table>
+        <tbody>
+        <tr>
+            <td class="label">Người report:</td>
+            <td >{{report?.fullNameReporter}}<i class="icon fas fa-info-circle" (click)="openUserDetail(report?.reporter?.id)"></i></td>
+        </tr>
+        <tr>
+            <td class="label">Người bị report:</td>
+            <td >{{report?.fullNamePersonBeingReported}}<i class="icon fas fa-info-circle" (click)="openUserDetail(report?.personBeingReported?.id)"></i></td>
+        </tr>
+        <tr >
+            <td class="label">Ngày report:</td>
+            <td>{{report?.createdAtFormatted}}</td>
+        </tr>
+        <tr>
+            <td class="label">Loại tư vấn:</td>
+            <td>{{report?.typeString}}&emsp;<i class="icon fas fa-info-circle" (click)="openDetail()"></i></td>
+        </tr>
+        <tr>
+            <td class="label">Lý do:</td>
+            <td>{{report?.reason}}&emsp;</td>
+        </tr>
+        <tr>
+            <td class="label">Trạng thái:</td>
+            <td>{{report?.statusString}}&emsp;</td>
+        </tr>
+        <tr>
+            <td class="label">Xử lý:</td>
+            <td>
+                <mat-select style="width: 230px" [disabled]="report?.status" placeholder="Chọn 1 hình thức xử lý" (selectionChange)="changeSolution($event.value)">
+                    <mat-option [value]="1">Trừ 1 sao đánh giá hệ thống</mat-option>
+                    <mat-option [value]="2">Trừ 1.5 sao đánh giá hệ thống</mat-option>
+                    <mat-option [value]="3">Trừ 2 sao đánh giá hệ thống</mat-option>
+                    <mat-option [value]="4">Trừ 2.5 sao đánh giá hệ thống</mat-option>
+                    <mat-option [value]="5">Block</mat-option>
+                    <mat-option [value]="6">Không xử lý</mat-option>
+                </mat-select>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button *ngIf="!report.status" [disabled]="solution === -1" mat-raised-button color="primary" (click)="ok()">Lưu</button>
+    <button *ngIf="report.status" mat-raised-button color="primary" (click)="ok()">Ok</button>
+    <button *ngIf="!report.status" mat-raised-button (click)="cancel()">Hủy</button>
+</mat-dialog-actions>

@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Thông tin chi tiết chat</h2>
+<mat-dialog-content style="min-width: 500px">
+    <table>
+        <tbody>
+        <tr>
+            <td class="label">Bệnh nhân:</td>
+            <td>{{chatDetail?.patientInfo.fullName}}</td>
+        </tr>
+        <tr>
+            <td class="label">Bác sĩ:</td>
+            <td>{{chatDetail?.doctorInfo.fullName}}</td>
+        </tr>
+        <tr>
+            <td class="label">Ngày tạo:</td>
+            <td>{{chatDetail?.createdAtFormatted}}</td>
+        </tr>
+        <tr>
+            <td class="label">Trạng thái:</td>
+            <td>{{chatDetail?.statusString}}</td>
+        </tr>
+        <tr>
+            <td class="label">Nội dung câu hỏi:</td>
+            <td>{{chatDetail?.contentTopic}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header (click)="panelOpenState = !panelOpenState">
+                <mat-panel-title>
+                    Chi tiết cuộc chat
+                </mat-panel-title>
+                <mat-panel-description>
+                    Click để {{panelOpenState ? 'mở' : 'đóng'}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="chatDetail.record.length === 0">
+                Không có record chat nào
+            </div>
+            <div id="chat-messages" *ngIf="chatDetail.record.length > 0">
+                <div *ngFor="let record of chatDetail?.record;trackBy: trackByFn" >
+                    <div *ngIf="record?.recorderId === chatDetail.doctorInfo.id" class="message">
+                        <img [src]="chatDetail.doctorInfo.avatar" />
+                        <div class="bubble">
+                            <p *ngIf="record.type === 1">{{record.value}}</p>
+                            <p *ngIf="record.type === 2"><img class="chat-img" [src]="record.value" (click)="previewImage(record.value)"></p>
+                            <div class="corner"></div>
+                            <span>{{record?.createdAtFormatted}}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="record?.recorderId === chatDetail.patientInfo.id" class="message right">
+                        <img [src]="chatDetail.patientInfo.avatar" />
+                        <div class="bubble">
+                            <p *ngIf="record.type === 1">{{record.value}}</p>
+                            <p *ngIf="record.type === 2"><img class="chat-img" [src]="record.value" (click)="previewImage(record.value)"></p>
+                            <div class="corner"></div>
+                            <span>{{record?.createdAtFormatted}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="ok()">OK</button>
+</mat-dialog-actions>

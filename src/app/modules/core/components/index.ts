@@ -10,3 +10,5 @@ export * from './user-menu/user-menu.component';
 export * from './FlashMessageComponent/flash-message.component';
 export * from './FlashMessageContainerComponent/flash-messages-container.component';
 export * from './ImageViewModalComponent/image-view-modal.component';
+export * from './DetailChatComponent/detail-chat-modal.component';
+export * from './DetailVideoCallComponent/detail-video-call-modal.component';

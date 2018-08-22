@@ -102,11 +102,11 @@ export class PaymentHistoriesComponent implements OnChanges {
         this.model.pageIndex = event.pageIndex;
         if ((event.pageIndex + 1) * event.pageSize > event.length) {
             for (let i = 1 * event.pageIndex * event.pageSize; i < event.length; i++) {
-                this.historyItems = [...this.historyItems, this.paymentHistories[i]];
+                this.historyItems = [...this.historyItems, this.sortedlist[i]];
             }
         } else {
             for (let i = 1 * event.pageIndex * event.pageSize; i < event.pageSize + event.pageIndex * event.pageSize; i++) {
-                this.historyItems = [...this.historyItems, this.paymentHistories[i]];
+                this.historyItems = [...this.historyItems, this.sortedlist[i]];
             }
         }
     }
