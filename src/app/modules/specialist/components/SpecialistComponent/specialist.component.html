@@ -55,9 +55,9 @@
                     <td class="icon"><i class="far fa-trash-alt delete-icon" (click)="onConfirmDelete(row)"></i></td>
                     <td class="icon"><i class="far fa-edit" (click)="openDetail(row)"></i></td>
                 </tr>
-                <tr *ngIf="rows?.length==0 && status==false">
-                    <td [colSpan]="header.length" style="text-align: center;">
-                        No records found
+                <tr *ngIf="rows?.length==0">
+                    <td [colSpan]="header.length + 2" style="text-align: center;">
+                        Không có bản ghi nào
                     </td>
                 </tr>
                 </tbody>

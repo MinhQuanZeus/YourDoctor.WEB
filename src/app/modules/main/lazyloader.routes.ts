@@ -9,37 +9,27 @@ import {BankingModule} from '../banking/banking.module';
 
 export const appRoutes: Routes = [{
     path: '', component: MainComponent, children: [
-        {path: '', loadChildren: userList},
-        {path: 'users', loadChildren: userList},
-        {path: 'type-advisories', loadChildren: typeAdvisoryList},
-        {path: 'specialist', loadChildren: specialist},
-        {path: 'reports', loadChildren: reports},
-        {path: 'banking', loadChildren: banking},
-        // { path: 'tables', loadChildren: '../tables/tables.module#TablesModule' },
-        // { path: 'maps', loadChildren: '../maps/maps.module#MapsModule' },
-        // { path: 'charts', loadChildren: '../charts/charts.module#ChartsModule' },
-        // // { path: 'chats', loadChildren: '../chats/chat.module#ChatsModule' }, // fix this
-        // //{ path: 'mail', loadChildren: '../mail/mail.module#MailModule' }, // fix this
-        // { path: 'pages', loadChildren: '../pages/pages.module#PagesModule' },
-        // { path: 'forms', loadChildren: '../forms/forms.module#FormModule' }, //fix this
-        // { path: 'guarded-routes', loadChildren: '../guarded-routes/guarded-routes.module#GuardedRoutesModule' },
-        // { path: 'editor', loadChildren: '../editor/editor.module#EditorModule' },
-        // { path: 'scrumboard', loadChildren: '../scrumboard/scrumboard.module#ScrumboardModule' },
+        {path: '', loadChildren: './../user-list/user-list.module#UserListModule'},
+        {path: 'users', loadChildren: './../user-list/user-list.module#UserListModule'},
+        {path: 'type-advisories', loadChildren: './../type-advisory/type-advisory.module#TypeAdvisoryModule'},
+        {path: 'specialist', loadChildren: '../specialist/specialist.module#SpecialistModule'},
+        {path: 'reports', loadChildren: '../reports/reports.module#ReportsModule'},
+        {path: 'banking', loadChildren: '../banking/banking.module#BankingModule'},
     ]
 }];
-export function userList() {
-    return UserListModule;
-}
-export function typeAdvisoryList() {
-    return TypeAdvisoryModule;
-}
-export function specialist() {
-    return SpecialistModule;
-}
-export function reports() {
-    return ReportsModule;
-}
-
-export function banking() {
-    return BankingModule;
-}
+// export function userList() {
+//     return UserListModule;
+// }
+// export function typeAdvisoryList() {
+//     return TypeAdvisoryModule;
+// }
+// export function specialist() {
+//     return SpecialistModule;
+// }
+// export function reports() {
+//     return ReportsModule;
+// }
+//
+// export function banking() {
+//     return BankingModule;
+// }

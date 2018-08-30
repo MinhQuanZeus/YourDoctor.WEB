@@ -29,10 +29,7 @@ import {ReportDetailComponent, ReportListComponent} from './components';
 import {RouterModule, Routes} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {UserDetailModule} from '../user-detail/user-detail.module';
-
-const route: Routes = [
-    { path: '', component: ReportListComponent , data: { animation: 'responsive' }}
-];
+import {ReportRouter} from './report.router';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -40,6 +37,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
     imports: [
+        ReportRouter,
         UserDetailModule,
         CommonModule,
         FlexLayoutModule,
@@ -66,7 +64,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         MatDialogModule,
         MatSelectModule,
         PerfectScrollbarModule,
-        RouterModule.forChild(route),
 
     ],
     declarations: [
@@ -81,9 +78,7 @@ providers: [
         provide: PERFECT_SCROLLBAR_CONFIG,
         useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }
-],
-    exports: [RouterModule]
-
+]
 })
 export class ReportsModule {
 }

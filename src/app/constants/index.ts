@@ -9,4 +9,5 @@ export const ROLE_PATIENT = 1;
 export const ROLE_DOCTOR = 2;
 export const ROLE_STAFF = 3;
 export const ROLE_ADMIN = 3;
+export const ROLE_SUPER_ADMIN = 4;
 export const USER_INFO_SESSION_STORAGE = 'USER_INFO';

@@ -60,6 +60,11 @@
                     </td>
                     <td><img width="50px" [src]="row?.invoice" (click)="previewImage(row)"></td>
                 </tr>
+                <tr *ngIf="historyItems?.length===0">
+                    <td [colSpan]="headers.length" style="text-align: center;">
+                        Không có bản ghi nào
+                    </td>
+                </tr>
                 </tbody>
                 <thead *matHeaderRowDef="headers"></thead>
                 <tr *matRowDef="let row; columns: headers;"></tr>

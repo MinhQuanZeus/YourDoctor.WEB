@@ -19,6 +19,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {HttpErrorInterceptor} from '../../interceptors/HttpErrorInterceptor';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
         CoreModule,
         LazyLoadModule,
         HttpClientModule,
+        NgxSpinnerModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -40,7 +42,6 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
         }),
         BrowserAnimationsModule,
     ],
-    exports: [RouterModule],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,

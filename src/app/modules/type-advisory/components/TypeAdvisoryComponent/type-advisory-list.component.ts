@@ -6,6 +6,7 @@ import {DeletionConfirmModalComponent} from '../../../core/components';
 import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/http';
 import {CreateTypeAdvisoryComponent} from '../CreateTypeAdvisoryComponent/create-type-advisory.component';
 import {UpdateTypeAdvisoryComponent} from '../UpdateTypeAdvisoryComponent/update-type-advisory.component';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-type-advisory-list',
@@ -53,7 +54,8 @@ export class TypeAdvisoryListComponent implements OnInit {
         }
     ];
 
-    constructor(private typeAdvisoryServices: TypeAdvisoryServices, private dialog: MatDialog, private commonService: CommonServices) {
+    constructor(private typeAdvisoryServices: TypeAdvisoryServices,
+                private spinner: NgxSpinnerService, private dialog: MatDialog, private commonService: CommonServices) {
         this.model = {
             sort: {
                 active: 'name',
@@ -188,6 +190,7 @@ export class TypeAdvisoryListComponent implements OnInit {
 
     async getUserlist(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.typeAdvisoryServices.getListTypeAdvisories().toPromise();
             const listUser = response && response.typeAdvisories;
             this.typeList = [];
@@ -195,7 +198,9 @@ export class TypeAdvisoryListComponent implements OnInit {
                 this.typeList = listUser.map(obj => new TypeAdvisory(obj));
             }
             this.onSort(this.model.sort);
+            this.spinner.hide();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
@@ -205,7 +210,9 @@ export class TypeAdvisoryListComponent implements OnInit {
 
     async deleteType(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.typeAdvisoryServices.deleteType(this.itemDelete).toPromise();
+            this.spinner.hide();
             const status = response && response.status;
             if (status) {
                 this.commonService.showFlashMessage(
@@ -213,6 +220,7 @@ export class TypeAdvisoryListComponent implements OnInit {
                 this.getUserlist();
             }
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));

@@ -3,15 +3,14 @@ import {LoginComponent} from './component';
 import {MatButtonModule, MatButtonToggleModule, MatCardModule, MatInputModule, MatToolbarModule} from '@angular/material';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
+import {LoginRouter} from './login.router';
 
-const routes: Routes = [
-    {path: '', component: LoginComponent},
-];
+
 @NgModule({
     imports: [
+        LoginRouter,
         MatCardModule,
         CommonModule,
         FlexLayoutModule,
@@ -22,13 +21,9 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         TranslateModule,
-        RouterModule.forChild(routes)
     ],
     declarations: [
         LoginComponent,
-    ],
-    exports: [
-        RouterModule
     ],
     providers: [
 

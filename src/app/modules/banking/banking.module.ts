@@ -26,13 +26,10 @@ import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScroll
 
 import {MatTableModule} from '@angular/material/table';
 import {BankingDetailComponent, BankingListComponent} from './components';
-import {RouterModule, Routes} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {UserDetailModule} from '../user-detail/user-detail.module';
+import {BankingRouter} from './banking.router';
 
-const route: Routes = [
-    { path: '', component: BankingListComponent , data: { animation: 'responsive' }}
-];
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -40,6 +37,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
     imports: [
+        BankingRouter,
         UserDetailModule,
         CommonModule,
         FlexLayoutModule,
@@ -66,7 +64,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         MatDialogModule,
         MatSelectModule,
         PerfectScrollbarModule,
-        RouterModule.forChild(route),
 
     ],
     declarations: [
@@ -76,14 +73,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     entryComponents: [
         BankingDetailComponent
     ],
-providers: [
-    {
-        provide: PERFECT_SCROLLBAR_CONFIG,
-        useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
-],
-    exports: [RouterModule]
-
+    providers: [
+        {
+            provide: PERFECT_SCROLLBAR_CONFIG,
+            useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+        }
+    ],
 })
 export class BankingModule {
 }

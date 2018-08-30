@@ -25,12 +25,15 @@
         <tr>
             <td class="label">Trạng thái:</td>
             <td>
-                <mat-select style="width: 230px" [value]="bankingDetail?.status" placeholder="Trạng thái" (selectionChange)="changeSolution($event.value)">
-                    <mat-option [value]="1">Chưa xác minh</mat-option>
-                    <mat-option [value]="2">Chưa xử lý</mat-option>
+                <mat-select style="width: 230px" [value]="status" [disabled]="bankingDetail?.status !== 2" placeholder="Trạng thái" (selectionChange)="changeSolution($event.value)">
+                    <mat-option [disabled]="true" [value]="1">Chưa xác minh</mat-option>
+                    <mat-option [disabled]="true" [value]="2">Chưa xử lý</mat-option>
                     <mat-option [value]="3">Đã chuyển</mat-option>
                     <mat-option [value]="4">Hủy bỏ</mat-option>
                 </mat-select>
+                <mat-error *ngIf="isErrorStatus" class="help is-danger">
+                    Vui lòng chọn trạng thái là đã xử lý hoặc hủy bỏ
+                </mat-error>
             </td>
         </tr>
         <tr>
@@ -39,24 +42,31 @@
                 <img width="150px" height="150px" class="avatar" [src]="invoiceSrc">
                 <input type="file" id="selectedFile" style="display: none;" (change)="onImageChange($event)"
                        accept="image/*"/>
-                <span class="icon-upload"><i class="fas fa-upload" style="cursor: pointer; font-size: 18px"
+                <span class="icon-upload" *ngIf="invoice && bankingDetail?.status === 2"><i class="far icon fa-trash-alt" (click)="onDelete()" style="cursor: pointer; font-size: 18px"></i></span>
+                <span class="icon-upload" *ngIf="!invoice && bankingDetail?.status === 2"><i class="fas fa-upload" style="cursor: pointer; font-size: 18px"
                                              onclick="document.getElementById('selectedFile').click();"></i></span>
+                <mat-error *ngIf="isErrorInvoice" class="help is-danger">
+                    Vui lòng thêm hóa đơn
+                </mat-error>
             </td>
         </tr>
         <tr>
             <td class="label">Chú thích:</td>
             <td>
                 <mat-form-field class="full-width">
-                    <textarea type="text" class="input" placeholder="Chú thích" [(ngModel)]="comment"
+                    <textarea [disabled]="bankingDetail?.status !== 2" type="text" class="input" placeholder="Chú thích" [(ngModel)]="comment" (change)="onInputComment()"
                               matInput></textarea>
                 </mat-form-field>
+                <mat-error *ngIf="isErrorComment" class="help is-danger">
+                    Vui lòng nhập chú thích
+                </mat-error>
             </td>
         </tr>
         </tbody>
     </table>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button *ngIf="!bankingDetail.status" mat-raised-button color="primary" (click)="ok()">Lưu</button>
-    <button *ngIf="bankingDetail.status" mat-raised-button color="primary" (click)="ok()">Ok</button>
-    <button *ngIf="!bankingDetail.status" mat-raised-button (click)="cancel()">Hủy</button>
+    <button *ngIf="bankingDetail?.status === 2" mat-raised-button color="primary" (click)="ok()">Lưu</button>
+    <button *ngIf="bankingDetail?.status !== 2" mat-raised-button color="primary" (click)="cancel()">Ok</button>
+    <button *ngIf="bankingDetail?.status === 2" mat-raised-button (click)="cancel()">Hủy</button>
 </mat-dialog-actions>

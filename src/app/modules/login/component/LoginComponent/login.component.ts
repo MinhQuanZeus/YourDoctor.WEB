@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from '@angular/router';
 // import { AuthService } from '../../core/auth.service';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
@@ -7,9 +7,11 @@ import {AuthServices, CommonServices} from '../../../../services';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Message} from '../../../../models';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-login',
+    encapsulation: ViewEncapsulation.None,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
@@ -25,6 +27,7 @@ export class LoginComponent implements OnInit {
                 private authService: AuthServices,
                 private commonServices: CommonServices,
                 private cookieService: CookieService,
+                private spinner: NgxSpinnerService,
                 private fb: FormBuilder) {
     }
 
@@ -62,11 +65,13 @@ export class LoginComponent implements OnInit {
 
     async loginFn(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.authService.login(this.model).toPromise();
+            this.spinner.hide();
             const userInfo = response && response.user;
             const token = response && response.token;
             if (userInfo) {
-                if (userInfo.role !== 3) {
+                if (userInfo.role !== 3 && userInfo.role !== 4) {
                     this.commonServices.showFlashMessage(
                         new Message({id: new Date().getTime(), type: 'ERROR', content: 'Vui lòng đăng nhập bằng tài khoản admin'}));
                     return;
@@ -78,7 +83,7 @@ export class LoginComponent implements OnInit {
             }
             this.router.navigateByUrl('/admin');
         } catch (e) {
-            console.log(e);
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonServices.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));

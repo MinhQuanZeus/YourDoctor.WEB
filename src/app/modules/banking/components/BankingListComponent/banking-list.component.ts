@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/http';
 import {BankingServices, CommonServices} from '../../../../services';
 import {BankingDetailComponent} from '../BankingDetailComponent/banking-detail.component';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-payment-histories',
@@ -63,7 +64,9 @@ export class BankingListComponent implements OnChanges {
 
     keywordPlaceHolder: string;
 
-    constructor(private bankingServices: BankingServices, private commonServices: CommonServices, private dialog: MatDialog) {
+    constructor(private bankingServices: BankingServices,
+                private spinner: NgxSpinnerService,
+                private commonServices: CommonServices, private dialog: MatDialog) {
         this.getUserlist();
     }
 
@@ -205,7 +208,9 @@ export class BankingListComponent implements OnChanges {
 
     async getUserlist(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.bankingServices.getAllBankingHistory().toPromise();
+            this.spinner.hide();
             const data = response && response.listBanking;
             this.bankingList = [];
             if (data && data.length > 0) {
@@ -215,6 +220,7 @@ export class BankingListComponent implements OnChanges {
             this.onSort(this.model.sort);
             this.getPages();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonServices.showFlashMessage(new Message({ id: new Date().getTime(), type: 'ERROR', content: error }));

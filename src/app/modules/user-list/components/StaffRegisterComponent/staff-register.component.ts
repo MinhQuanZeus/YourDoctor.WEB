@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/http';
 import {Message} from '../../../../models';
 import {AuthServices, CommonServices} from '../../../../services';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-staff-register',
@@ -31,6 +32,7 @@ export class StaffRegisterComponent {
     avatarSrc = '../../../../../assets/images/noavatar.png';
 
     constructor(private dialogRef: MatDialogRef<StaffRegisterComponent>,
+                private spinner: NgxSpinnerService,
                 private authService: AuthServices, private commonService: CommonServices,
                 @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
         this.userForm = this.fb.group({
@@ -126,13 +128,16 @@ export class StaffRegisterComponent {
 
     async postAdmin(formdata): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.authService.register(formdata).toPromise();
             if (response) {
+                this.spinner.hide();
                 this.dialogRef.close('ok');
                 this.commonService.showFlashMessage(
                     new Message({ id: new Date().getTime(), type: 'SUCCESS', content: 'Đã thêm thành công ' + this.model.lastName }));
             }
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({ id: new Date().getTime(), type: 'ERROR', content: error }));

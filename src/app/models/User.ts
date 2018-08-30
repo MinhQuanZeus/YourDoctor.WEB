@@ -2,7 +2,7 @@ import {
     FEMALE,
     MALE, ROLE_ADMIN,
     ROLE_DOCTOR,
-    ROLE_PATIENT,
+    ROLE_PATIENT, ROLE_SUPER_ADMIN,
     STATUS_DOCTOR_BLOCK,
     STATUS_DOCTOR_PENDING,
     STATUS_USER_BLOCK
@@ -27,6 +27,7 @@ export class User {
         status: null,
         createdAt: null,
         updatedAt: null,
+        reportCount: null,
         moreDoctorDetail: null
     }) {
     }
@@ -83,6 +84,8 @@ export class User {
                 return 'Bệnh nhân';
             case ROLE_ADMIN:
                 return 'Admin';
+            case ROLE_SUPER_ADMIN:
+                return 'Super admin';
         }
     }
 
@@ -141,6 +144,10 @@ export class User {
 
     get id(): string {
         return this.props._id;
+    }
+
+    get reportCount(): number {
+        return this.props.reportCount;
     }
 }
 

@@ -4,6 +4,7 @@ import {BankingServices, ChatServices, CommonServices, PaymentServices, UserServ
 import {Message, User, VideoCallHistory, ChatHistory, PaymentHistory, Banking} from '../../../../models';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ImageViewModalComponent} from '../../../core/components';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-dialog-user-detail',
@@ -23,8 +24,12 @@ export class UserDetailComponent {
     bankingHistories: Banking[];
     type = 1;
 
+    systemRatting = 0;
+    status = 1;
+
     constructor(private dialogRef: MatDialogRef<UserDetailComponent>, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,
                 private commonServices: CommonServices, private userServices: UserServices, private bankingServices: BankingServices,
+                private spinner: NgxSpinnerService,
                 private videoCallHistoryServices: VideoCallServices, private paymentHistoryServices: PaymentServices,
                 private chatServices: ChatServices) {
         this.initData = data;
@@ -35,7 +40,7 @@ export class UserDetailComponent {
     }
 
     public ok() {
-        this.dialogRef.close('ok');
+        this.updateUser();
     }
 
     public cancel() {
@@ -52,8 +57,16 @@ export class UserDetailComponent {
         });
     }
 
+    onChangeStatus(value) {
+        this.status = value;
+    }
+    onChangeSystemRatting(value) {
+        this.systemRatting = value;
+    }
+
     async getUserInfo() {
         try {
+            this.spinner.show();
             const res = await this.userServices.getUserById(this.initData.id).toPromise();
             const userRes = res && res.user ? res.user : null;
             const moreDetail = res && res.moreDoctorDetail ? res.moreDoctorDetail : null;
@@ -61,15 +74,22 @@ export class UserDetailComponent {
                 this.userInfo = new User(userRes);
                 this.userInfo.doctorDetail = moreDetail;
                 if (this.userInfo.role === 1 || this.userInfo.role === 2) {
-                    this.getChatHistory(this.userInfo);
-                    this.getVideoCallHistory(this.userInfo);
-                    this.getPaymentHistories(this.userInfo);
+                    this.status = this.userInfo.status;
+                    this.systemRatting = this.userInfo.role === 2 ? this.userInfo.doctorDetail.systemRating : 0;
+                    await this.getChatHistory(this.userInfo);
+                    await this.getVideoCallHistory(this.userInfo);
+                    await this.getPaymentHistories(this.userInfo);
+                }
+                if (this.userInfo.role === 4) {
+                    await this.getPaymentHistories(this.userInfo);
                 }
                 if (this.userInfo.role === 2) {
-                    this.getBankHistories(this.userInfo);
+                    await this.getBankHistories(this.userInfo);
                 }
             }
+            this.spinner.hide();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonServices.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
@@ -99,6 +119,7 @@ export class UserDetailComponent {
                 this.chatHistories = historiesPatientRes.map(obj => new ChatHistory(obj));
             }
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonServices.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
@@ -128,6 +149,7 @@ export class UserDetailComponent {
                 this.videoCallHistories = historiesPatientRes.map(obj => new VideoCallHistory(obj));
             }
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonServices.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
@@ -139,7 +161,7 @@ export class UserDetailComponent {
         try {
             let historiesRes = null;
             let res = null;
-            if (user && user.role === 2 || user.role === 1) {
+            if (user && user.role === 2 || user.role === 1 || user.role === 4) {
                 res = await this.paymentHistoryServices.getPaymentHistoriesByUserId(user.id).toPromise();
                 historiesRes = res && res.listPaymentHistory ? res.listPaymentHistory : null;
             }
@@ -147,6 +169,7 @@ export class UserDetailComponent {
                 this.paymentHistories = historiesRes.map(obj => new PaymentHistory(obj));
             }
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonServices.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
@@ -165,7 +188,28 @@ export class UserDetailComponent {
             if (historiesRes && historiesRes.length > 0) {
                 this.bankingHistories = historiesRes.map(obj => new Banking(obj));
             }
-            console.log(this.bankingHistories);
+        } catch (e) {
+            this.spinner.hide();
+            if (e instanceof HttpErrorResponse) {
+                const error = e && e.error && e.error.error ? e.error.error : '';
+                this.commonServices.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
+            }
+        }
+    }
+
+    async updateUser() {
+        try {
+            const data = {
+                id: this.userInfo.id,
+                status: this.status,
+                systemRating: this.systemRatting
+            };
+            const response = await this.userServices.updateUser(data).toPromise();
+            if (response) {
+                this.dialogRef.close('ok');
+                this.commonServices.showFlashMessage(
+                    new Message({id: new Date().getTime(), type: 'SUCCESS', content: 'Đã lưu thành công ' + this.userInfo.fullName}));
+            }
         } catch (e) {
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';

@@ -13,6 +13,33 @@ export class PaymentHistoriesComponent implements OnChanges {
 
     @ViewChild('startDate') startDatepicker: MatDatepicker<Date>;
     @ViewChild('endDate') endDatepicker: MatDatepicker<Date>;
+    headerAdminHistory = [
+        {
+            name: 'Người chuyển',
+            key: 'formUserFullName',
+            order: 'asc'
+        },
+        {
+            name: 'Ngày nhận',
+            key: 'createdAtFormatted',
+            order: 'asc'
+        },
+        {
+            name: 'Số tiền nhận',
+            key: 'amount',
+            order: 'asc'
+        },
+        {
+            name: 'Số dư',
+            key: 'remainMoney',
+            order: 'asc'
+        },
+        {
+            name: 'Loại tư vấn',
+            key: 'typeAdvisory',
+            order: 'asc'
+        }
+    ];
     headerDoctorChatHistories = [
         {
             name: 'Bệnh nhân',
@@ -131,6 +158,7 @@ export class PaymentHistoriesComponent implements OnChanges {
     openStartDate() {
         this.startDatepicker.open();
     }
+
     openEndDate() {
         this.endDatepicker.open();
     }
@@ -215,9 +243,12 @@ export class PaymentHistoriesComponent implements OnChanges {
             if (this.userInfo.role === 1) {
                 this.keywordPlaceHolder = 'Tên bác sĩ';
                 this.headers = this.headerPatientChatHistories;
-            } else {
+            } else if (this.userInfo.role === 2) {
                 this.keywordPlaceHolder = 'Tên bệnh nhân';
                 this.headers = this.headerDoctorChatHistories;
+            } else if (this.userInfo.role === 4) {
+                this.keywordPlaceHolder = 'Tên người chuyển';
+                this.headers = this.headerAdminHistory;
             }
         }
 

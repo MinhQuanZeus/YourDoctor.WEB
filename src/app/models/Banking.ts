@@ -14,8 +14,8 @@ export class Banking {
         type: null,
         nameBank: null,
         accountNumber: null,
-        comment: null,
-        invoice: null
+        note: null,
+        evidence: null
     }) {
     }
 
@@ -81,10 +81,10 @@ export class Banking {
     }
 
     get comment(): string {
-        return this.props.comment;
+        return this.props.note;
     }
 
     get invoice(): string {
-        return this.props.invoice || '../../../../../assets/images/no-image-icon.png';
+        return this.props.evidence || '../../../../../assets/images/no-image-icon.png';
     }
 }

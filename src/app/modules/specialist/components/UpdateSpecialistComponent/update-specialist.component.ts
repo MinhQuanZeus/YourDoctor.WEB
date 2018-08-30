@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/http';
 import {Message, Specialist, TypeAdvisory} from '../../../../models';
 import {CommonServices, SpecialistServices} from '../../../../services';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-update-type-advisory',
@@ -25,6 +26,7 @@ export class UpdateSpecialistComponent {
     avatarSrc = '../../../../../assets/images/noavatar.png';
 
     constructor(private dialogRef: MatDialogRef<UpdateSpecialistComponent>,
+                private spinner: NgxSpinnerService,
                 private specialistServices: SpecialistServices, private commonService: CommonServices,
                 @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
         this.getSpecialist(data.id);
@@ -96,13 +98,16 @@ export class UpdateSpecialistComponent {
 
     async postType(data): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.specialistServices.edit(this.model.id, data).toPromise();
+            this.spinner.hide();
             if (response) {
                 this.dialogRef.close('ok');
                 this.commonService.showFlashMessage(
                     new Message({id: new Date().getTime(), type: 'SUCCESS', content: 'Đã sửa thành công ' + this.model.name}));
             }
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
@@ -112,6 +117,7 @@ export class UpdateSpecialistComponent {
 
     async getSpecialist(id) {
         try {
+            this.spinner.show();
             const res = await this.specialistServices.getById(id).toPromise();
             const userRes = res && res.objSpecialist ? res.objSpecialist : null;
             if (userRes) {
@@ -123,7 +129,9 @@ export class UpdateSpecialistComponent {
                 this.avatarSrc = data.image;
                 this.model.image = data.image;
             }
+            this.spinner.hide();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));

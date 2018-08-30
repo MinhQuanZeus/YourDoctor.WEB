@@ -22,4 +22,8 @@ export class BankingServices {
     getById(id): Observable<any> {
         return this.http.get(environment.API_ENDPOINT + 'bankinghistorys/get-detail-banking/' + id);
     }
+
+    updateBank(body, id): Observable<any> {
+        return this.http.put(environment.API_ENDPOINT + 'bankinghistorys/handleBankingHistory/' + id, body);
+    }
 }

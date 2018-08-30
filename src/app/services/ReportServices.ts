@@ -18,4 +18,8 @@ export class ReportServices {
     getById(id): Observable<any> {
         return this.http.get(environment.API_ENDPOINT + 'reportConversations/' + id);
     }
+
+    updateReport(body): Observable<any> {
+        return this.http.put(environment.API_ENDPOINT + '/reportConversations/reportPunish', body);
+    }
 }

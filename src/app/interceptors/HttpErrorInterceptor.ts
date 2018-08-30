@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import {HttpErrorResponse} from '@angular/common/http';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import {Location} from '@angular/common';
@@ -28,8 +27,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         case 403:
                             return this.router.navigateByUrl('/applications');
                         case 500:
-                            this.router.navigateByUrl('/500');
-                            return error;
+                            return this.router.navigateByUrl('/500');
                         default:
                             break;
                     }

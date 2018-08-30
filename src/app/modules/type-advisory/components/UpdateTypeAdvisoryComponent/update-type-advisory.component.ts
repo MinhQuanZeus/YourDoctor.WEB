@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/http';
 import {Message, TypeAdvisory, User} from '../../../../models';
 import {CommonServices, TypeAdvisoryServices} from '../../../../services';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-update-type-advisory',
@@ -26,6 +27,7 @@ export class UpdateTypeAdvisoryComponent {
     typeAdvisory: TypeAdvisory;
 
     constructor(private dialogRef: MatDialogRef<UpdateTypeAdvisoryComponent>,
+                private spinner: NgxSpinnerService,
                 private typeAdvisoryServices: TypeAdvisoryServices, private commonService: CommonServices,
                 @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
         this.getTypeAdvisory(data.id);
@@ -88,6 +90,7 @@ export class UpdateTypeAdvisoryComponent {
 
     async getTypeAdvisory(id) {
         try {
+            this.spinner.show();
             const res = await this.typeAdvisoryServices.getById(id).toPromise();
             const userRes = res && res.objectAdvisory ? res.objectAdvisory : null;
             if (userRes) {
@@ -99,7 +102,9 @@ export class UpdateTypeAdvisoryComponent {
                 this.model.limitNumberRecords = this.typeAdvisory.limitNumberRecords;
                 this.model.description = this.typeAdvisory.description;
             }
+            this.spinner.hide();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));

@@ -6,6 +6,7 @@ import {DeletionConfirmModalComponent} from '../../../core/components';
 import {StaffRegisterComponent} from '../StaffRegisterComponent/staff-register.component';
 import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/http';
 import {UserDetailComponent} from '../../../user-detail/components';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-user-list',
@@ -57,7 +58,8 @@ export class UserListComponent implements OnInit {
         }
     ];
 
-    constructor(private userServices: UserServices, private dialog: MatDialog, private commonService: CommonServices) {
+    constructor(private userServices: UserServices, private dialog: MatDialog,
+                private commonService: CommonServices, private spinner: NgxSpinnerService) {
         this.model = {
             search_keyword: null,
             status: 0,
@@ -121,6 +123,7 @@ export class UserListComponent implements OnInit {
 
     onEnterSearchKey() {
         this.keyWord.nativeElement.blur();
+        return false;
     }
 
     onBlurKeyWord() {
@@ -181,6 +184,7 @@ export class UserListComponent implements OnInit {
 
     async getUserlist(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.userServices.getUsers(this.model).toPromise();
             const listUser = response && response.listUser;
             this.userList = [];
@@ -188,7 +192,9 @@ export class UserListComponent implements OnInit {
                 this.userList = listUser.map(obj => new User(obj));
             }
             this.getRows();
+            this.spinner.hide();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({ id: new Date().getTime(), type: 'ERROR', content: error }));
@@ -198,13 +204,16 @@ export class UserListComponent implements OnInit {
 
     async deleteUser(): Promise<any> {
         try {
+            this.spinner.show();
             const deleteUser = this.userList.filter(obj => obj.phoneNumber === this.userDelete.phoneNumber);
             const response = await this.userServices.deleteUser(deleteUser[0]).toPromise();
             const status = response && response.status;
             if (status) {
                 this.getUserlist();
             }
+            this.spinner.hide();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({ id: new Date().getTime(), type: 'ERROR', content: error }));

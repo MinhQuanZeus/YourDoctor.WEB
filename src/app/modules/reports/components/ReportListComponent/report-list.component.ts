@@ -6,6 +6,7 @@ import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/
 import {CommonServices, ReportServices, UserServices} from '../../../../services';
 import {UserDetailComponent} from '../../../user-detail/components';
 import {ReportDetailComponent} from '../ReportDetailComponent/report-detail.component';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-payment-histories',
@@ -74,7 +75,8 @@ export class ReportListComponent implements OnChanges {
 
     keywordPlaceHolder: string;
 
-    constructor(private reportServices: ReportServices, private commonServices: CommonServices, private dialog: MatDialog) {
+    constructor(private reportServices: ReportServices, private commonServices: CommonServices,
+                private spinner: NgxSpinnerService, private dialog: MatDialog) {
         this.getUserlist();
     }
 
@@ -219,6 +221,7 @@ export class ReportListComponent implements OnChanges {
 
     async getUserlist(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.reportServices.getReports().toPromise();
             const data = response && response.listReport;
             this.reportList = [];
@@ -226,10 +229,11 @@ export class ReportListComponent implements OnChanges {
                 this.reportList = data.map(obj => new Report(obj));
             }
             this.searchedList = this.reportList.slice();
-            console.log(this.reportList);
             this.onSort(this.model.sort);
             this.getPages();
+            this.spinner.hide();
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonServices.showFlashMessage(new Message({ id: new Date().getTime(), type: 'ERROR', content: error }));

@@ -37,7 +37,7 @@
             <div *ngIf="chatDetail.record.length === 0">
                 Không có record chat nào
             </div>
-            <div id="chat-messages" *ngIf="chatDetail.record.length > 0">
+            <div id="chat-messages" *ngIf="chatDetail?.record.length > 0">
                 <div *ngFor="let record of chatDetail?.record;trackBy: trackByFn" >
                     <div *ngIf="record?.recorderId === chatDetail.doctorInfo.id" class="message">
                         <img [src]="chatDetail.doctorInfo.avatar" />

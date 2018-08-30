@@ -6,6 +6,7 @@ import {DeletionConfirmModalComponent} from '../../../core/components';
 import {HttpErrorResponse} from '../../../../../../node_modules/@angular/common/http';
 import {CreateSpecialistComponent} from '../CreateSpecialistComponent/create-specialist.component';
 import {UpdateSpecialistComponent} from '../UpdateSpecialistComponent/update-specialist.component';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-specialist',
@@ -38,7 +39,8 @@ export class SpecialistComponent implements OnInit {
         }
     ];
 
-    constructor(private specialistServices: SpecialistServices, private dialog: MatDialog, private commonService: CommonServices) {
+    constructor(private specialistServices: SpecialistServices,
+                private spinner: NgxSpinnerService, private dialog: MatDialog, private commonService: CommonServices) {
         this.model = {
             sort: {
                 active: 'name',
@@ -168,7 +170,9 @@ export class SpecialistComponent implements OnInit {
 
     async getUserlist(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.specialistServices.getList().toPromise();
+            this.spinner.hide();
             const listUser = response && response.listSpecialist;
             this.specialistList = [];
             if (listUser && listUser.length > 0) {
@@ -176,6 +180,7 @@ export class SpecialistComponent implements OnInit {
             }
             this.onSort(this.model.sort);
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));
@@ -185,14 +190,17 @@ export class SpecialistComponent implements OnInit {
 
     async deleteType(): Promise<any> {
         try {
+            this.spinner.show();
             const response = await this.specialistServices.delete(this.itemDelete).toPromise();
             const status = response && response.status;
+            this.spinner.hide();
             if (status) {
                 this.commonService.showFlashMessage(
                     new Message({id: new Date().getTime(), type: 'SUCCESS', content: 'Đã xóa thành công ' + this.itemDelete.name}));
                 this.getUserlist();
             }
         } catch (e) {
+            this.spinner.hide();
             if (e instanceof HttpErrorResponse) {
                 const error = e && e.error && e.error.error ? e.error.error : '';
                 this.commonService.showFlashMessage(new Message({id: new Date().getTime(), type: 'ERROR', content: error}));

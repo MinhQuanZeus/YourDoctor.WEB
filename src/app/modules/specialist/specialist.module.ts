@@ -29,10 +29,7 @@ import {SpecialistComponent, CreateSpecialistComponent, UpdateSpecialistComponen
 import {RouterModule, Routes} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {UserDetailModule} from '../user-detail/user-detail.module';
-
-const route: Routes = [
-    {path: '', component: SpecialistComponent, data: {animation: 'responsive'}}
-];
+import {SpecialistRouter} from './specialist.router';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -40,6 +37,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
     imports: [
+        SpecialistRouter,
         UserDetailModule,
         CommonModule,
         FlexLayoutModule,
@@ -66,7 +64,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         MatDialogModule,
         MatSelectModule,
         PerfectScrollbarModule,
-        RouterModule.forChild(route),
     ],
     declarations: [
         SpecialistComponent,
@@ -83,8 +80,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
             useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
         }
     ],
-    exports: [RouterModule]
-
 })
 export class SpecialistModule {
 }

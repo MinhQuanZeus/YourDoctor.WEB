@@ -46,4 +46,8 @@ export class UserServices {
     getDoctorDetail(doctorId): Observable<any> {
         return this.http.get(environment.API_ENDPOINT + 'doctors/getDetailDoctor/' + doctorId);
     }
+
+    updateUser(body): Observable<any> {
+        return this.http.put(environment.API_ENDPOINT + '/users/update-user', body);
+    }
 }

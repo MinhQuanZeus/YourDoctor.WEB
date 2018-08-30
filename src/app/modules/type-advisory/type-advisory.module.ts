@@ -29,10 +29,9 @@ import {TypeAdvisoryListComponent, CreateTypeAdvisoryComponent, UpdateTypeAdviso
 import {RouterModule, Routes} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {UserDetailModule} from '../user-detail/user-detail.module';
+import {TypeAdvisoryRouter} from './type-advisory.router';
 
-const route: Routes = [
-    {path: '', component: TypeAdvisoryListComponent, data: {animation: 'responsive'}}
-];
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -40,6 +39,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
     imports: [
+        TypeAdvisoryRouter,
         UserDetailModule,
         CommonModule,
         FlexLayoutModule,
@@ -66,7 +66,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         MatDialogModule,
         MatSelectModule,
         PerfectScrollbarModule,
-        RouterModule.forChild(route),
     ],
     declarations: [
         TypeAdvisoryListComponent,
@@ -82,9 +81,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
             provide: PERFECT_SCROLLBAR_CONFIG,
             useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
         }
-    ],
-    exports: [RouterModule]
-
+    ]
 })
 export class TypeAdvisoryModule {
 }

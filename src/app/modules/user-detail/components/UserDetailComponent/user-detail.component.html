@@ -31,22 +31,26 @@
                         <tr>
                             <td class="label">Vai trò:</td>
                             <td>
-                                <mat-select [disabled]="type === 2" [(value)]="userInfo.role">
-                                    <mat-option [value]="3">Admin</mat-option>
-                                    <mat-option [value]="2">Bác sĩ</mat-option>
-                                    <mat-option [value]="1">Bệnh nhân</mat-option>
-                                </mat-select>
+                                {{userInfo?.roleString}}
+                                <!--<mat-select [disabled]="type === 2 || userInfo?.role ===4" [(value)]="userInfo.role">-->
+                                    <!--<mat-option [disabled]="userInfo?.role !==4" [value]="4">Super Admin</mat-option>-->
+                                    <!--<mat-option [value]="3">Admin</mat-option>-->
+                                    <!--<mat-option [value]="2">Bác sĩ</mat-option>-->
+                                    <!--<mat-option [value]="1">Bệnh nhân</mat-option>-->
+                                <!--</mat-select>-->
                             </td>
+                        </tr>
+                        <tr>
+                            <td class="label">Số lần bị report:</td>
+                            <td>{{userInfo?.reportCount}}</td>
                         </tr>
                         <tr>
                             <td class="label">Trạng thái:</td>
                             <td>
-                                <mat-select [disabled]="type === 2" [(value)]="userInfo.status">
+                                <mat-select [disabled]="type === 2 || userInfo?.role ===4" [(value)]="userInfo.status" (selectionChange)="onChangeStatus($event.value)">
                                     <mat-option [value]="1">Active</mat-option>
                                     <mat-option [value]="3">Block</mat-option>
-                                    <mat-option *ngIf="userInfo.role === 2" [value]="4">Bác sĩ block</mat-option>
-                                    <mat-option *ngIf="userInfo.role === 2" [value]="2">Bác sĩ chờ phê duyệt
-                                    </mat-option>
+                                    <mat-option *ngIf="userInfo.role === 2" [value]="2">Bác sĩ chờ phê duyệt</mat-option>
                                 </mat-select>
                             </td>
                         </tr>
@@ -59,7 +63,7 @@
                         <tr *ngIf="userInfo.role === 2">
                             <td class="label">Đánh giá hệ thống:</td>
                             <td>
-                                <mat-select [disabled]="type === 2" [(value)]="userInfo.doctorDetail.systemRating">
+                                <mat-select [disabled]="type === 2" [(value)]="userInfo.doctorDetail.systemRating" (selectionChange)="onChangeSystemRatting($event.value)">
                                     <mat-option [value]="1">1</mat-option>
                                     <mat-option [value]="1.5">1.5</mat-option>
                                     <mat-option [value]="2">2</mat-option>
@@ -116,17 +120,17 @@
                 </div>
             </ng-template>
         </mat-tab>
-        <mat-tab *ngIf="userInfo?.role !== 3" label="Lịch sử chat">
+        <mat-tab *ngIf="userInfo?.role !== 3 && userInfo?.role !== 4" label="Lịch sử chat">
             <ng-template matTabContent>
                 <app-chat-histories [userInfo]="userInfo" [chatHistories]="chatHistories"></app-chat-histories>
             </ng-template>
         </mat-tab>
-        <mat-tab *ngIf="userInfo?.role !== 3" label="Lịch sử video call">
+        <mat-tab *ngIf="userInfo?.role !== 3 && userInfo?.role !== 4" label="Lịch sử video call">
             <ng-template matTabContent>
                 <app-video-call-histories [userInfo]="userInfo" [videoCallHistories]="videoCallHistories"> </app-video-call-histories>
             </ng-template>
         </mat-tab>
-        <mat-tab *ngIf="userInfo?.role !== 3" label="Lịch sử Thanh Toán">
+        <mat-tab *ngIf="userInfo?.role !== 3 || userInfo?.role === 4" label="Lịch sử Thanh Toán">
             <ng-template matTabContent>
                 <app-payment-histories [userInfo]="userInfo" [paymentHistories]="paymentHistories"></app-payment-histories>
             </ng-template>
@@ -142,7 +146,7 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button *ngIf="type !== 2" mat-raised-button color="primary" (click)="ok()">Lưu</button>
-    <button *ngIf="type === 2" mat-raised-button color="primary" (click)="ok()">OK</button>
+    <button *ngIf="type === 2" mat-raised-button color="primary" (click)="cancel()">OK</button>
     <button *ngIf="type !== 2" mat-raised-button (click)="cancel()">Hủy</button>
 </mat-dialog-actions>
 
