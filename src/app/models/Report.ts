@@ -39,7 +39,7 @@ export class Report {
         if (!this.props.createdAt) {
             return '';
         }
-        return moment(this.props.createdAt).format('YYYY/MM/DD hh:mm');
+        return moment(this.props.createdAt).format('YYYY/MM/DD HH:mm');
     }
 
     get updatedAt(): number {

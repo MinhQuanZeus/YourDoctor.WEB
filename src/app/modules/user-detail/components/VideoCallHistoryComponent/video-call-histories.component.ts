@@ -181,7 +181,7 @@ export class VideoCallHistoriesComponent implements OnChanges {
                 case 'timeStartFormatted':
                     return compare(a.timeStartFormatted, b.timeStartFormatted, isAsc);
                 case 'callLength':
-                    return compare(a.callLength, b.callLength, isAsc);
+                    return compare(a.callLengthNumber, b.callLengthNumber, isAsc);
                 case 'linkVideo':
                     return compare(a.linkVideo, b.linkVideo, isAsc);
                 default:

@@ -192,7 +192,7 @@ export class BankingListComponent implements OnChanges {
                 case 'createdAtFormatted':
                     return compare(a.createdAtFormatted, b.createdAtFormatted, isAsc);
                 case 'amount':
-                    return compare(a.amount, b.amount, isAsc);
+                    return compare(a.amountOrigin, b.amountOrigin, isAsc);
                 case 'statusString':
                     return compare(a.statusString, b.statusString, isAsc);
                 default:

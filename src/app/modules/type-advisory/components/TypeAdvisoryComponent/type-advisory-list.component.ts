@@ -174,7 +174,7 @@ export class TypeAdvisoryListComponent implements OnInit {
                 case 'name':
                     return compare(a.name, b.name, isAsc);
                 case 'price':
-                    return compare(a.price, b.price, isAsc);
+                    return compare(a.priceOrigin, b.priceOrigin, isAsc);
                 case 'limitNumberRecords':
                     return compare(a.limitNumberRecords, b.limitNumberRecords, isAsc);
                 case 'description':

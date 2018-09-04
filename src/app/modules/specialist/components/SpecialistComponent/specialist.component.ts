@@ -97,7 +97,7 @@ export class SpecialistComponent implements OnInit {
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = {
-            title: 'Xóa loại tư vấn',
+            title: 'Xóa chuyên khoa',
             message: 'Bạn có muốn xóa ' + this.itemDelete.name + '?'
         };
         const dialogRef = this.dialog.open(DeletionConfirmModalComponent, dialogConfig);

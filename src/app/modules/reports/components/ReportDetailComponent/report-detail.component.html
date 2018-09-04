@@ -29,7 +29,7 @@
         <tr>
             <td class="label">Xử lý:</td>
             <td *ngIf="report?.personBeingReported.role === 2">
-                <mat-select style="width: 230px" [disabled]="report?.status" placeholder="Chọn 1 hình thức xử lý" (selectionChange)="changeSolution($event.value)">
+                <mat-select style="width: 230px" [disabled]="report?.status" [value]="report?.punish" placeholder="Chọn 1 hình thức xử lý" (selectionChange)="changeSolution($event.value)">
                     <mat-option [value]="1">Trừ 1 sao đánh giá hệ thống</mat-option>
                     <mat-option [value]="2">Trừ 1.5 sao đánh giá hệ thống</mat-option>
                     <mat-option [value]="3">Trừ 2 sao đánh giá hệ thống</mat-option>
@@ -39,7 +39,7 @@
                 </mat-select>
             </td>
             <td *ngIf="report?.personBeingReported.role === 1">
-                <mat-select style="width: 230px" [disabled]="report?.status" placeholder="Chọn 1 hình thức xử lý" (selectionChange)="changeSolution($event.value)">
+                <mat-select style="width: 230px" [disabled]="report?.status" [value]="report?.punish" placeholder="Chọn 1 hình thức xử lý" (selectionChange)="changeSolution($event.value)">
                     <mat-option [value]="1">Cảnh cáo 1</mat-option>
                     <mat-option [value]="2">Cảnh cáo 2</mat-option>
                     <mat-option [value]="3">Cảnh cáo 3</mat-option>
@@ -53,7 +53,7 @@
     </table>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button *ngIf="!report.status" [disabled]="solution === -1" mat-raised-button color="primary" (click)="ok()">Lưu</button>
-    <button *ngIf="report.status" mat-raised-button color="primary" (click)="cancel()">Ok</button>
-    <button *ngIf="!report.status" mat-raised-button (click)="cancel()">Hủy</button>
+    <button *ngIf="!report?.status" [disabled]="solution === -1" mat-raised-button color="primary" (click)="ok()">Lưu</button>
+    <button *ngIf="report?.status" mat-raised-button color="primary" (click)="cancel()">Ok</button>
+    <button *ngIf="!report?.status" mat-raised-button (click)="cancel()">Hủy</button>
 </mat-dialog-actions>

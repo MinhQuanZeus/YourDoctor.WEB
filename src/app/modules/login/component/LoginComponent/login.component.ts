@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
                 private cookieService: CookieService,
                 private spinner: NgxSpinnerService,
                 private fb: FormBuilder) {
+        this.cookieService.delete('ACCESS_TOKEN');
+        this.cookieService.deleteAll();
     }
 
     ngOnInit() {

@@ -39,6 +39,10 @@ export class TypeAdvisory {
         return this.props.price.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
     }
 
+    get priceOrigin(): number {
+        return this.props.price;
+    }
+
     get type(): number {
         return this.props.type;
     }

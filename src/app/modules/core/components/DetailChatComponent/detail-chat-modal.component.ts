@@ -52,7 +52,6 @@ export class DetailChatModalComponent {
             const userRes = res && res.objConversation ? res.objConversation : null;
             if (userRes) {
                 this.chatDetail = new Chat(userRes);
-                console.log(this.chatDetail.record);
             }
         } catch (e) {
             if (e instanceof HttpErrorResponse) {

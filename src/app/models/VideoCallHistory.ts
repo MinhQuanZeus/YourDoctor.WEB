@@ -31,7 +31,7 @@ export class VideoCallHistory {
         if (!this.props.createdAt) {
             return '';
         }
-        return moment(this.props.createdAt).format('YYYY/MM/DD hh:mm');
+        return moment(this.props.createdAt).format('YYYY/MM/DD HH:mm');
     }
 
     get timeStart(): number {
@@ -42,7 +42,7 @@ export class VideoCallHistory {
         if (!this.props.timeStart) {
             return '';
         }
-        return moment(this.props.timeStart).format('YYYY/MM/DD hh:mm');
+        return moment(this.props.timeStart).format('YYYY/MM/DD HH:mm');
     }
 
     get callLength(): string {
@@ -64,6 +64,10 @@ export class VideoCallHistory {
             length = length + sec + 'sec';
         }
         return length;
+    }
+
+    get callLengthNumber(): number {
+        return this.props.timeEnd - this.props.timeStart;
     }
 
     get linkVideo(): string {

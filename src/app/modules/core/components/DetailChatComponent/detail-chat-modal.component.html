@@ -34,7 +34,7 @@
                     Click để {{panelOpenState ? 'mở' : 'đóng'}}
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <div *ngIf="chatDetail.record.length === 0">
+            <div *ngIf="chatDetail?.record.length === 0">
                 Không có record chat nào
             </div>
             <div id="chat-messages" *ngIf="chatDetail?.record.length > 0">

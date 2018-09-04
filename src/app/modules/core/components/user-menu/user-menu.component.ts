@@ -63,6 +63,7 @@ export class UserMenuComponent implements OnInit, OnDestroy {
     }
 
     onLogout() {
+        this.cookieService.delete('ACCESS_TOKEN');
         this.cookieService.deleteAll();
         this.authenService.logOut();
         this.route.navigateByUrl('/login');

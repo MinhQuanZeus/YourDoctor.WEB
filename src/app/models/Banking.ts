@@ -46,7 +46,7 @@ export class Banking {
         if (!this.props.createdAt) {
             return '';
         }
-        return moment(this.props.createdAt).format('YYYY/MM/DD hh:mm');
+        return moment(this.props.createdAt).format('YYYY/MM/DD HH:mm');
     }
 
     get updatedAt(): number {
@@ -70,6 +70,10 @@ export class Banking {
             return 0;
         }
         return this.props.amount.toLocaleString('it-IT', {style: 'currency', currency: 'VND'});
+    }
+
+    get amountOrigin(): number {
+        return this.props.amount;
     }
 
     get nameBank(): string {

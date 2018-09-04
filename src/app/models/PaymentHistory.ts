@@ -19,7 +19,7 @@ export class PaymentHistory {
         if (!this.props.createdAt) {
             return '';
         }
-        return moment(this.props.createdAt).format('YYYY/MM/DD hh:mm');
+        return moment(this.props.createdAt).format('YYYY/MM/DD HH:mm');
     }
     get updatedAt(): number {
         return this.props.updatedAt;
@@ -41,6 +41,13 @@ export class PaymentHistory {
             return 0;
         }
         return this.props.remainMoney.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+    }
+
+    get remainMoneyOrigin(): number {
+        return this.props.remainMoney;
+    }
+    get amountOrigin(): number {
+        return this.props.amount;
     }
     get fromUser(): FromUserInfo {
         return new FromUserInfo(this.props.fromUser);

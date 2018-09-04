@@ -80,7 +80,7 @@ export class PaymentHistoriesComponent implements OnChanges {
             order: 'asc'
         },
         {
-            name: 'Số tiền true',
+            name: 'Số tiền trả',
             key: 'amount',
             order: 'asc'
         },
@@ -99,6 +99,7 @@ export class PaymentHistoriesComponent implements OnChanges {
     @Input() userInfo = new User();
     @Input() paymentHistories: PaymentHistory[];
     @ViewChild('keyWord') keyWordRef: ElementRef;
+    sumAmount = '0';
     model = {
         keyword: '',
         startTime: null,
@@ -197,6 +198,10 @@ export class PaymentHistoriesComponent implements OnChanges {
         if (this.model.endTime) {
             this.searchedList = this.searchedList.filter(obj => obj.createdAtFormatted <= this.model.endTime);
         }
+        if (this.searchedList && this.searchedList.length > 0) {
+            this.sumAmount = this.searchedList.map(obj => obj.amountOrigin).reduce((a, b) => a + b)
+                .toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+        }
         this.onSort(this.model.sort);
     }
 
@@ -224,9 +229,9 @@ export class PaymentHistoriesComponent implements OnChanges {
                 case 'formUserFullName':
                     return compare(a.formUserFullName, b.formUserFullName, isAsc);
                 case 'amount':
-                    return compare(a.amount, b.amount, isAsc);
+                    return compare(a.amountOrigin, b.amountOrigin, isAsc);
                 case 'remainMoney':
-                    return compare(a.remainMoney, b.remainMoney, isAsc);
+                    return compare(a.remainMoneyOrigin, b.remainMoneyOrigin, isAsc);
                 case 'typeAdvisory':
                     return compare(a.typeAdvisory, b.typeAdvisory, isAsc);
                 case 'createdAtFormatted':
@@ -254,6 +259,10 @@ export class PaymentHistoriesComponent implements OnChanges {
 
         if (this.paymentHistories && this.paymentHistories.length > 0) {
             this.searchedList = this.paymentHistories;
+            if (this.searchedList && this.searchedList.length > 0) {
+                this.sumAmount = this.searchedList.map(obj => obj.amountOrigin).reduce((a, b) => a + b)
+                    .toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+            }
             this.onSort(this.model.sort);
             this.getPages();
         }

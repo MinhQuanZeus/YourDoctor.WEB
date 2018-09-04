@@ -40,7 +40,7 @@
                                 <!--</mat-select>-->
                             </td>
                         </tr>
-                        <tr>
+                        <tr *ngIf="userInfo.role === 1 || userInfo.role === 2">
                             <td class="label">Số lần bị report:</td>
                             <td>{{userInfo?.reportCount}}</td>
                         </tr>

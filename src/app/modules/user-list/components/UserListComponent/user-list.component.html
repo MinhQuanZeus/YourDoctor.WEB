@@ -5,7 +5,7 @@
             <!--<h1 class="mat-headline center-align">Danh sách người dùng</h1>-->
             <form class="center-align">
                 <mat-form-field class="margin-left-10">
-                    <input #keyWord matInput [ngModelOptions]="{standalone: true}" placeholder="Từ khóa" maxlength="200" [(ngModel)]="model.search_keyword" (blur)="onBlurKeyWord()" (keydown.enter)="onEnterSearchKey()">
+                    <input #keyWord matInput [ngModelOptions]="{standalone: true}" placeholder="Họ tên người dùng" maxlength="200" [(ngModel)]="model.search_keyword" (blur)="onBlurKeyWord()" (keydown.enter)="onEnterSearchKey()">
                 </mat-form-field>
                 <mat-form-field class="margin-left-10">
                     <mat-select placeholder="Trạng thái" (selectionChange)="onChangeStatus($event.value)">
